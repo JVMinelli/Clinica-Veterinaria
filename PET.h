@@ -65,31 +65,65 @@ void imprimePet(Pet* p)
 {
     printf("\n\t%d | %s | %s | %d | %02d/%02d/%04d | %s",p->id,p->nome,p->especie,p->idade,p->data->dia,p->data->mes,p->data->ano,(p->prioridade) ? ("EMERGENCIA") : ("NORMAL"));
 }
-Pet* criaPet(Fila *fila_normal, Fila *fila_emergencia, Fila *fila_atendidos){
+Pet* criaPet(Fila *fila_normal, Fila *fila_emergencia, Fila *fila_atendidos) {
     Pet* new_pet = (Pet*)malloc(sizeof(Pet));
-    if (new_pet == NULL) return NULL;
-    char buffer[5];
+    if (new_pet == NULL) {
+        printf("Erro: Falha na alocação de memória para o Pet.\n");
+        return NULL;
+    }
+
+    new_pet->data = (Data*)malloc(sizeof(Data));
+    if (new_pet->data == NULL) {
+        printf("Erro: Falha na alocação de memória para a data.\n");
+        free(new_pet);
+        return NULL;
+    }
 
     printf("\nDigite o nome do pet: ");
     scanf("%49s", new_pet->nome);
-    printf("\nDigite a idade do pet: ");
-    scanf("%d", &new_pet->idade);
+    while (getchar() != '\n');
+
+    int itens_lidos;
+
+    do {
+        printf("\nDigite a idade do pet: ");
+        itens_lidos = scanf("%d", &new_pet->idade);
+        while (getchar() != '\n');
+
+        if (itens_lidos != 1) {
+            printf("Entrada inválida. Por favor, digite um número para a idade.\n");
+        }
+    } while (itens_lidos != 1);
+
     printf("\nDigite a espécie do pet: ");
     scanf("%29s", new_pet->especie);
-    int itens_lidos;
-    do{
-        printf("\nDigite a data de nacimento do pet (D/M/A). \n EX: 02/09/2005 : ");
+    while (getchar() != '\n');
+
+    do {
+        printf("\nDigite a data de nascimento do pet (DD/MM/AAAA). Ex: 02/09/2005: ");
         itens_lidos = scanf("%d/%d/%d", &new_pet->data->dia, &new_pet->data->mes, &new_pet->data->ano);
-        if(itens_lidos!= 3){
-            printf("Formato inválido");
-            while (getchar() != '\n');
+        while (getchar() != '\n');
+
+        if (itens_lidos != 3) {
+            printf("Formato de data inválido. Tente novamente.\n");
         }
-    }while(itens_lidos != 3);
+    } while (itens_lidos != 3);
+
     char prioridade;
-    printf("\nEmergencia? (Y/n): ");
-    scanf("%c",&prioridade);
-    while(getchar() != '\n');
-    new_pet->prioridade = (toupper(prioridade) == 'Y') ? 1 : 0;
+    do {
+        printf("\nEmergência? (S/N): ");
+        itens_lidos = scanf(" %c", &prioridade);
+        while (getchar() != '\n');
+
+        prioridade = toupper(prioridade);
+
+        if (itens_lidos != 1 || (prioridade != 'S' && prioridade != 'N')) {
+            printf("Opção inválida. Por favor, digite 'S' para sim ou 'N' para não.\n");
+        }
+    } while (itens_lidos != 1 || (prioridade != 'S' && prioridade != 'N'));
+
+    new_pet->prioridade = (prioridade == 'S') ? 1 : 0;
+
     new_pet->id = generateId(fila_normal, fila_emergencia, fila_atendidos);
     return new_pet;
 }
