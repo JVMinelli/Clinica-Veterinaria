@@ -1,0 +1,22 @@
+Inicio
+=========================================================
+===   Sistema de Gerenciamento - Clinica Veterinaria  ===
+=========================================================
+           / \__
+          (    @\___
+          /         O
+         /   (_____/
+        /_____/   U
+
+Bem-vindo! Por favor, escolha uma opcao:
+
+[1] Adicionar Pet a Fila de Atendimento
+[2] Chamar Proximo Pet para Atendimento
+[3] Buscar Pet (por ID ou Nome)
+[4] Listar Pets na Fila de Espera
+[5] Ver Proximo Pet da Fila
+[6] Listar Pets ja Atendidos
+
+[7] Sair do Sistema
+
+>> Sua escolha: 

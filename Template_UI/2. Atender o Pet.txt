@@ -1,0 +1,17 @@
+2. Atender o Pet 
+--- Chamando Proximo Pet ---
+
+[ATENDIMENTO NORMAL]
+
+ID: 123
+Nome: Bolinha
+Especie: Gato
+Idade: 2
+Data de Nascimento: 10/10/2023
+Prioridade: 1 (Normal)
+
+O pet 'Bolinha' foi atendido e removido da fila.
+Pressione ENTER para continuar...
+
+[INFO] Nao ha pets na fila de espera.
+Pressione ENTER para continuar...

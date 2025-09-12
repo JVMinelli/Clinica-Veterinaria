@@ -23,17 +23,39 @@ typedef struct petInfo
     int prioridade;
 }Pet;
 
-/**
+/**********************************************************************************
 * Funções de Impressão de Pet
 */
+/*
+Imprime os dados de um pet já atendido
+ID | Nome | Espécie | Idade | Prioridade
+*/
 void imprimePetAtendido(Pet* p);
+
+/*
+Imprime os dados de um pet não atentido
+ID | Nome | Espécie | Idade | Data de Nascimento | Prioridade
+*/
 void imprimePet(Pet* p);
-/**
-* Funções para criar um Pet
+
+
+
+/**********************************************************************************
+* Função para criar um Pet
 */
 Pet* criaPet(Fila *fila_normal, Fila *fila_emergencia, Fila *fila_atendidos);
+//Auxiliares
 int idIsValid(int new_id, Fila *fila_normal, Fila *fila_emergencia, Fila *fila_atendidos);
 int generateId(Fila *fila_normal, Fila *fila_emergencia, Fila *fila_atendidos);
+
+
+
+
+
+
+
+
+
 
 void imprimePetAtendido(Pet* p)
 {
