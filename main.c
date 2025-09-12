@@ -19,6 +19,7 @@ int main(){
     const char* bem_vindo = "Bem-Vindo";
     const char* opcoes = "Escolha uma opção: \n\t 1.Inserir um  pet na fila de atendimento \n\t 2.Atender pet \n\t 3.Busca pet por id ou nome \n\t 4.Imprimir Pets a serem atendidos \n\t 5.Imprimir próximo pet a ser atendido \n\t 6.Imprimir pet já atendidos \n\t 7.Sair";
     int operacao;
+    printf("%d",bem_vindo);
     printf("%s",opcoes);
     scanf("%d",operacao);
     while(opcao_escolhida!=7){
