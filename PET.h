@@ -21,6 +21,7 @@ typedef struct petInfo
     char nome[50];
     Data *data;
     int prioridade;
+    int atendido;
 }Pet;
 
 /**********************************************************************************
@@ -59,11 +60,11 @@ int generateId(Fila *fila_normal, Fila *fila_emergencia, Fila *fila_atendidos);
 
 void imprimePetAtendido(Pet* p)
 {
-    printf("\n\t%d | %s | %s | %d | %s",p->id,p->nome,p->especie,p->idade,(p->prioridade) ? ("EMERGENCIA") : ("NORMAL"));
+    printf("\n\t%d | %s | %s | %d | %s | %s |\n",p->id,p->nome,p->especie,p->idade,(p->prioridade) ? ("EMERGENCIA") : ("NORMAL"), (p->atendido) ? ("ATENDIDO") : ("AGUARDANDO ATENDIMENTO"));
 }
 void imprimePet(Pet* p)
 {
-    printf("\n\t%d | %s | %s | %d | %02d/%02d/%04d | %s",p->id,p->nome,p->especie,p->idade,p->data->dia,p->data->mes,p->data->ano,(p->prioridade) ? ("EMERGENCIA") : ("NORMAL"));
+    printf("\n\t%d | %s | %s | %d | %02d/%02d/%04d | %s\n",p->id,p->nome,p->especie,p->idade,p->data->dia,p->data->mes,p->data->ano,(p->prioridade) ? ("EMERGENCIA") : ("NORMAL"));
 }
 Pet* criaPet(Fila *fila_normal, Fila *fila_emergencia, Fila *fila_atendidos) {
     Pet* new_pet = (Pet*)malloc(sizeof(Pet));
@@ -124,6 +125,8 @@ Pet* criaPet(Fila *fila_normal, Fila *fila_emergencia, Fila *fila_atendidos) {
 
     new_pet->prioridade = (prioridade == 'S') ? 1 : 0;
 
+    new_pet->atendido = 0;
+
     new_pet->id = generateId(fila_normal, fila_emergencia, fila_atendidos);
     return new_pet;
 }
@@ -164,6 +167,95 @@ int idIsValid(int new_id, Fila *fila_normal, Fila *fila_emergencia, Fila *fila_a
     }
 
     return 1;
+}
+
+//função imprimir fila de pets - emergencia e normal
+void imprimeFila(Fila *fila){
+
+    Nos *aux;
+    if(!VaziaFila(fila)){
+        aux = fila->ini;
+        while(aux != NULL){
+            imprimePet(aux->pet);
+            aux = aux->prox;
+        }
+    }
+}
+
+//função para imprimir pets da fila de atendidos
+void imprimeFilaAtendidos(Fila *fila){
+
+    Nos *aux;
+    if(!VaziaFila(fila)){
+        aux = fila->ini;
+        while(aux != NULL){
+            imprimePetAtendido(aux->pet);
+            aux = aux->prox;
+        }
+    }
+}
+
+Fila* buscarPetNome(char *nome, Fila *fila_emergencia, Fila *fila_normal, Fila *fila_atendidos){
+
+    Nos *aux;
+    Fila *fila_nomes = CriaFila();
+
+    aux = fila_normal->ini;
+    while(aux != NULL){
+        if(aux->pet->nome == nome){
+            InsereFila(fila_nomes, aux->pet);
+        }
+        aux = aux->prox;
+    }
+
+    aux = fila_emergencia->ini;
+    while(aux != NULL){
+        if(aux->pet->nome == nome){
+            InsereFila(fila_nomes, aux->pet);
+        }
+        aux = aux->prox;
+    }
+
+    aux = fila_atendidos->ini;
+    while(aux != NULL){
+        if(aux->pet->nome == nome){
+            InsereFila(fila_nomes, aux->pet);
+        }
+        aux = aux->prox;
+    }
+
+    return fila_nomes;
+}
+
+Pet* buscarPetId(int id, Fila *fila_emergencia, Fila *fila_normal, Fila *fila_atendidos){
+
+    Nos *aux;
+
+    aux = fila_normal->ini;
+    while(aux != NULL){
+        if(aux->pet->id == id){
+            return aux->pet;
+        }
+        aux = aux->prox;
+    }
+
+    aux = fila_emergencia->ini;
+    while(aux != NULL){
+        if(aux->pet->id == id){
+            return aux->pet;
+        }
+        aux = aux->prox;
+    }
+
+    aux = fila_atendidos->ini;
+    while(aux != NULL){
+        if(aux->pet->id == id){
+            return aux->pet;
+        }
+        aux = aux->prox;
+    }
+
+    return NULL;
 }
 
 #endif // PET_H_INCLUDED
