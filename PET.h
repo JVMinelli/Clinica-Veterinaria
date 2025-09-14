@@ -171,32 +171,10 @@ int generateId(Fila *fila_normal, Fila *fila_emergencia, Fila *fila_atendidos){
 }
 
 int idIsValid(int new_id, Fila *fila_normal, Fila *fila_emergencia, Fila *fila_atendidos){
-    Nos *aux;
-
-    aux = fila_normal->ini;
-    while(aux != NULL){
-        if(aux->pet->id == new_id){
-            return 0;
-        }
-        aux = aux->prox;
+    Pet *pet = buscarPetId(new_id,fila_emergencia, fila_normal,fila_atendidos)
+    if(pet == NULL){
+        return 0;
     }
-
-    aux = fila_emergencia->ini;
-    while(aux != NULL){
-        if(aux->pet->id == new_id){
-            return 0;
-        }
-        aux = aux->prox;
-    }
-
-    aux = fila_atendidos->ini;
-    while(aux != NULL){
-        if(aux->pet->id == new_id){
-            return 0;
-        }
-        aux = aux->prox;
-    }
-
     return 1;
 }
 
