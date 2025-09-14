@@ -25,11 +25,11 @@ typedef struct petInfo
 }Pet;
 
 /**********************************************************************************
-* Funções de Impressão de Pet
+* Funções de Impressão de um Pet
 */
 /*
 Imprime os dados de um pet já atendido
-ID | Nome | Espécie | Idade | Prioridade
+ID | Nome | Espécie | Idade | Prioridade | Atendido |
 */
 void imprimePetAtendido(Pet* p);
 
@@ -39,7 +39,11 @@ ID | Nome | Espécie | Idade | Data de Nascimento | Prioridade
 */
 void imprimePet(Pet* p);
 
-
+/**********************************************************************************
+* Funções de impreção das Filas
+*/
+void imprimeFila(Fila *fila);
+void imprimeFilaAtendidos(Fila *fila);
 
 /**********************************************************************************
 * Função para criar um Pet
@@ -48,6 +52,33 @@ Pet* criaPet(Fila *fila_normal, Fila *fila_emergencia, Fila *fila_atendidos);
 //Auxiliares
 int idIsValid(int new_id, Fila *fila_normal, Fila *fila_emergencia, Fila *fila_atendidos);
 int generateId(Fila *fila_normal, Fila *fila_emergencia, Fila *fila_atendidos);
+
+/**********************************************************************************
+* Funções de busca
+*/
+/*  @brief: Busca por Nome
+        se for encontrado retorna uma fila de Pet com pets que tem o nome de busca. Faz comparação em tres filas;
+        se não retorna NULL;
+    @params: nome, fila_emergencia,fila_normal,fila_atendidos
+*/
+Fila* buscarPetNome(char *nome, Fila *fila_emergencia, Fila *fila_normal, Fila *fila_atendidos);
+/*  @brief: Busca por Id
+        se encontrado retorna o pet com id de busca; se não for retorna NULL;
+    @params: id, fila_emergencia, fila_normal, fila_atendidos
+*/
+Pet* buscarPetId(int id, Fila *fila_emergencia, Fila *fila_normal, Fila *fila_atendidos);
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -171,7 +202,6 @@ int idIsValid(int new_id, Fila *fila_normal, Fila *fila_emergencia, Fila *fila_a
 
 //função imprimir fila de pets - emergencia e normal
 void imprimeFila(Fila *fila){
-
     Nos *aux;
     if(!VaziaFila(fila)){
         aux = fila->ini;
@@ -184,7 +214,6 @@ void imprimeFila(Fila *fila){
 
 //função para imprimir pets da fila de atendidos
 void imprimeFilaAtendidos(Fila *fila){
-
     Nos *aux;
     if(!VaziaFila(fila)){
         aux = fila->ini;
