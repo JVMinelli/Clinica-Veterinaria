@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <time.h>
 #include <ctype.h>
+#include <string.h>
 
 
 typedef struct DataNasci
@@ -24,7 +25,7 @@ typedef struct petInfo
     int atendido;
 }Pet;
 
-/**********************************************************************************
+/**
 * Funções de Impressão de um Pet
 */
 /*
@@ -39,13 +40,13 @@ ID | Nome | Espécie | Idade | Data de Nascimento | Prioridade
 */
 void imprimePet(Pet* p);
 
-/**********************************************************************************
+/**
 * Funções de impreção das Filas
 */
 void imprimeFila(Fila *fila);
 void imprimeFilaAtendidos(Fila *fila);
 
-/**********************************************************************************
+/**
 * Função para criar um Pet
 */
 Pet* criaPet(Fila *fila_normal, Fila *fila_emergencia, Fila *fila_atendidos);
@@ -53,7 +54,7 @@ Pet* criaPet(Fila *fila_normal, Fila *fila_emergencia, Fila *fila_atendidos);
 int idIsValid(int new_id, Fila *fila_normal, Fila *fila_emergencia, Fila *fila_atendidos);
 int generateId(Fila *fila_normal, Fila *fila_emergencia, Fila *fila_atendidos);
 
-/**********************************************************************************
+/**
 * Funções de busca
 */
 /*  @brief: Busca por Nome
@@ -112,8 +113,8 @@ Pet* criaPet(Fila *fila_normal, Fila *fila_emergencia, Fila *fila_atendidos) {
     }
 
     printf("\nDigite o nome do pet: ");
-    scanf("%49s", new_pet->nome);
-    while (getchar() != '\n');
+    fgets(new_pet->nome,sizeof(new_pet->nome),stdin);
+    new_pet->nome[strcspn(new_pet->nome, "\n")] = '\0';
 
     int itens_lidos;
 
@@ -128,8 +129,8 @@ Pet* criaPet(Fila *fila_normal, Fila *fila_emergencia, Fila *fila_atendidos) {
     } while (itens_lidos != 1);
 
     printf("\nDigite a espécie do pet: ");
-    scanf("%29s", new_pet->especie);
-    while (getchar() != '\n');
+    fgets(new_pet->especie,sizeof(new_pet->especie),stdin);
+    new_pet->especie[strcspn(new_pet->especie, "\n")] = '\0';
 
     do {
         printf("\nDigite a data de nascimento do pet (DD/MM/AAAA). Ex: 02/09/2005: ");
@@ -153,7 +154,7 @@ Pet* criaPet(Fila *fila_normal, Fila *fila_emergencia, Fila *fila_atendidos) {
             printf("Opção inválida. Por favor, digite 'S' para sim ou 'N' para não.\n");
         }
     } while (itens_lidos != 1 || (prioridade != 'S' && prioridade != 'N'));
-
+    printf("ttt");
     new_pet->prioridade = (prioridade == 'S') ? 1 : 0;
 
     new_pet->atendido = 0;
@@ -171,11 +172,11 @@ int generateId(Fila *fila_normal, Fila *fila_emergencia, Fila *fila_atendidos){
 }
 
 int idIsValid(int new_id, Fila *fila_normal, Fila *fila_emergencia, Fila *fila_atendidos){
-    Pet *pet = buscarPetId(new_id,fila_emergencia, fila_normal,fila_atendidos)
+    Pet *pet = buscarPetId(new_id,fila_emergencia, fila_normal,fila_atendidos);
     if(pet == NULL){
-        return 0;
+        return 1;
     }
-    return 1;
+    return 0;
 }
 
 //função imprimir fila de pets - emergencia e normal
@@ -209,7 +210,7 @@ Fila* buscarPetNome(char *nome, Fila *fila_emergencia, Fila *fila_normal, Fila *
 
     aux = fila_normal->ini;
     while(aux != NULL){
-        if(aux->pet->nome == nome){
+        if(strncmp(aux->pet->nome,nome,sizeof(aux->pet->nome))==0){
             InsereFila(fila_nomes, aux->pet);
         }
         aux = aux->prox;
@@ -217,7 +218,7 @@ Fila* buscarPetNome(char *nome, Fila *fila_emergencia, Fila *fila_normal, Fila *
 
     aux = fila_emergencia->ini;
     while(aux != NULL){
-        if(aux->pet->nome == nome){
+        if(strncmp(aux->pet->nome,nome,sizeof(aux->pet->nome))==0){
             InsereFila(fila_nomes, aux->pet);
         }
         aux = aux->prox;
@@ -225,7 +226,7 @@ Fila* buscarPetNome(char *nome, Fila *fila_emergencia, Fila *fila_normal, Fila *
 
     aux = fila_atendidos->ini;
     while(aux != NULL){
-        if(aux->pet->nome == nome){
+        if(strncmp(aux->pet->nome,nome,sizeof(aux->pet->nome))==0){
             InsereFila(fila_nomes, aux->pet);
         }
         aux = aux->prox;

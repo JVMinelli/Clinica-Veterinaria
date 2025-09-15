@@ -4,6 +4,7 @@
 #include "PET.h"
 #include "FILA.h"
 #include <locale.h>
+#include <string.h>
 
 int main(){
 
@@ -22,6 +23,8 @@ int main(){
     printf("%s",bem_vindo);
     printf("%s",opcoes);
     scanf("%d", &operacao);
+    while (getchar() != '\n');
+
     while(operacao!=7){
         switch(operacao){
         case 1:
@@ -32,6 +35,7 @@ int main(){
             else{
                 InsereFila(fila_normal, pet);
             }
+            printf("fas");
             break;
         case 2:
             if(VaziaFila(fila_emergencia)){
@@ -126,6 +130,7 @@ int main(){
         }
         printf("%s",opcoes);
         scanf("%d", &operacao);
+        while (getchar() != '\n');
     }
 
 
