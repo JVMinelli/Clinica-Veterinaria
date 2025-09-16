@@ -23,7 +23,7 @@ int main(){
     printf("%s",bem_vindo);
     printf("%s",opcoes);
     scanf("%d", &operacao);
-    while (getchar() != '\n');
+    fflush(stdin);
 
     while(operacao!=7){
         switch(operacao){
@@ -35,7 +35,6 @@ int main(){
             else{
                 InsereFila(fila_normal, pet);
             }
-            printf("fas");
             break;
         case 2:
             if(VaziaFila(fila_emergencia)){
@@ -59,11 +58,15 @@ int main(){
             int a;
             printf("Deseja buscar o pet por nome(0) ou por Id(1)?: ");
             scanf("%d", &a);
+            while (getchar() != '\n');
 
             if(a == 0){
-                printf("Qual o nome do pet?");
+                printf("Qual o nome do pet? ");
                 char nome[50];
-                scanf("%s", &nome);
+                fflush(stdin);
+                fgets(nome,sizeof(nome),stdin);
+                nome[strcspn(nome, "\n")] = '\0';
+                fflush(stdin);
 
                 Fila *nomes = buscarPetNome(nome, fila_emergencia, fila_normal, fila_atendidos);
                 if(!VaziaFila(nomes)){
