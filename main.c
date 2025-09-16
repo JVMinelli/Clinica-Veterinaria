@@ -17,9 +17,26 @@ int main(){
     /** Fila de pets já atendidos*/
     Fila *fila_atendidos = CriaFila();
 
-    const char* bem_vindo = "Bem-Vindo\n";
-    const char* opcoes = "Escolha uma opção: \n\t 1.Inserir um pet na fila de atendimento \n\t 2.Atender pet \n\t 3.Busca pet por id ou nome \n\t 4.Imprimir Pets a serem atendidos \n\t 5.Imprimir próximo pet a ser atendido \n\t 6.Imprimir pet já atendidos \n\t 7.Sair \n";
+    const char* inicio1 = "\n=========================================================\n";
+    const char* inicio2 = "\n===   Sistema de Gerenciamento - Clinica Veterinária  ===\n";
+    const char* inicio3 = "\n=========================================================\n";
+    const char* dog1 = "\n           / __";
+    const char* dog2 = "\n          (    @ ___";
+    const char* dog3 = "\n          /         O";
+    const char* dog4 = "\n         /   (_____/";
+    const char* dog5 = "\n        /____/   U";
+    const char* bem_vindo = "\nBem-vindo! Por favor, escolha uma opção: \n";
+    const char* opcoes = "\n[1] Adicionar Pet a Fila de Atendimento \n[2] Chamar Proximo Pet para Atendimento \n[3] Buscar Pet (por ID ou Nome) \n[4] Listar Pets na Fila de Espera \n[5] Ver Proximo Pet da Fila \n[6] Listar Pets ja Atendidos \n[7] Sair do Sistema \n\n\t>> Sua escolha:";
+
     int operacao;
+    printf("%s",inicio1);
+    printf("%s",inicio2);
+    printf("%s",inicio3);
+    printf("%s",dog1);
+    printf("%s",dog2);
+    printf("%s",dog3);
+    printf("%s",dog4);
+    printf("%s",dog5);
     printf("%s",bem_vindo);
     printf("%s",opcoes);
     scanf("%d", &operacao);
@@ -29,6 +46,12 @@ int main(){
         switch(operacao){
         case 1:
             Pet *pet = criaPet(fila_normal,fila_emergencia,fila_atendidos);
+            if(pet != NULL){
+                printf("\n\t[SUCESSO] Pet %s (ID: %d) adicionado a fila de %s.",pet->nome,pet->id,(pet->prioridade) ? ("EMERGENCIA") : ("NORMAL"));
+            }
+            else{
+                printf("\n\t[FALHA] Não foi possivel cadastrar o pet");
+            }
             if(pet->prioridade == 1){
                 InsereFila(fila_emergencia, pet);
             }
@@ -39,26 +62,32 @@ int main(){
         case 2:
             if(VaziaFila(fila_emergencia)){
                 if(VaziaFila(fila_normal)){
-                    printf("Fila vazia");
+                    printf("\n[INFO] Nao ha pets na fila de espera.");
                 }
                 else{
                     Pet *petAux = RetiraFila(fila_normal);
                     petAux->atendido = 1;
                     InsereFila(fila_atendidos, petAux);
+                    printf("\nO pet %s foi atendido e removido da fila.",petAux->nome);
+                    imprimePetAtendido(petAux,strlen(perAux->nome));
                 }
             }
             else{
                 Pet *petAux = RetiraFila(fila_emergencia);
                 petAux->atendido = 1;
                 InsereFila(fila_atendidos, petAux);
+                printf("\nO pet %s foi atendido e removido da fila.",petAux->nome);
+                imprimePetAtendido(petAux,strlen(perAux->nome));
             }
             break;
 
         case 3:
-            int a;
-            printf("Deseja buscar o pet por nome(0) ou por Id(1)?: ");
-            scanf("%d", &a);
-            while (getchar() != '\n');
+            int a = -1;
+            do{
+                printf("Deseja buscar o pet por nome(0) ou por Id(1)?: ");
+                scanf("%d", &a);
+                while (getchar() != '\n');
+            }while(a!=0 && a!=1);
 
             if(a == 0){
                 printf("Qual o nome do pet? ");
@@ -82,8 +111,8 @@ int main(){
                 scanf("%d", &id);
 
                 Pet *petId = buscarPetId(id, fila_emergencia, fila_normal, fila_atendidos);
-                if(!petId == NULL){
-                    imprimePetAtendido(petId);
+                if(petId != NULL){
+                    imprimePetAtendido(petId,strlen(petId->nome));
                 }
                 else{
                     printf("nenhum pet com esse id foi encontrado!\n");
@@ -131,9 +160,20 @@ int main(){
             printf("opção invalida, digite uma opção valida\n");
             break;
         }
+        printf("\n");
+        system("pause");
+        system("cls");
+        printf("%s",inicio1);
+        printf("%s",inicio2);
+        printf("%s",inicio3);
+        printf("%s",dog1);
+        printf("%s",dog2);
+        printf("%s",dog3);
+        printf("%s",dog4);
+        printf("%s",dog5);
+        printf("%s",bem_vindo);
         printf("%s",opcoes);
         scanf("%d", &operacao);
-        while (getchar() != '\n');
     }
 
 
