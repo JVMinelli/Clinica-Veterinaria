@@ -113,15 +113,17 @@ Pet* criaPet(Fila *fila_normal, Fila *fila_emergencia, Fila *fila_atendidos) {
     }
 
     printf("\nDigite o nome do pet: ");
+    fflush(stdin);
     fgets(new_pet->nome,sizeof(new_pet->nome),stdin);
     new_pet->nome[strcspn(new_pet->nome, "\n")] = '\0';
+    fflush(stdin);
 
     int itens_lidos;
 
     do {
         printf("\nDigite a idade do pet: ");
         itens_lidos = scanf("%d", &new_pet->idade);
-        while (getchar() != '\n');
+        fflush(stdin);
 
         if (itens_lidos != 1) {
             printf("Entrada inválida. Por favor, digite um número para a idade.\n");
@@ -135,7 +137,7 @@ Pet* criaPet(Fila *fila_normal, Fila *fila_emergencia, Fila *fila_atendidos) {
     do {
         printf("\nDigite a data de nascimento do pet (DD/MM/AAAA). Ex: 02/09/2005: ");
         itens_lidos = scanf("%d/%d/%d", &new_pet->data->dia, &new_pet->data->mes, &new_pet->data->ano);
-        while (getchar() != '\n');
+        fflush(stdin);
 
         if (itens_lidos != 3) {
             printf("Formato de data inválido. Tente novamente.\n");
@@ -146,7 +148,7 @@ Pet* criaPet(Fila *fila_normal, Fila *fila_emergencia, Fila *fila_atendidos) {
     do {
         printf("\nEmergência? (S/N): ");
         itens_lidos = scanf(" %c", &prioridade);
-        while (getchar() != '\n');
+        fflush(stdin);
 
         prioridade = toupper(prioridade);
 
@@ -154,7 +156,7 @@ Pet* criaPet(Fila *fila_normal, Fila *fila_emergencia, Fila *fila_atendidos) {
             printf("Opção inválida. Por favor, digite 'S' para sim ou 'N' para não.\n");
         }
     } while (itens_lidos != 1 || (prioridade != 'S' && prioridade != 'N'));
-    printf("ttt");
+
     new_pet->prioridade = (prioridade == 'S') ? 1 : 0;
 
     new_pet->atendido = 0;
