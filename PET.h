@@ -32,7 +32,7 @@ typedef struct petInfo
 Imprime os dados de um pet já atendido
 ID | Nome | Espécie | Idade | Prioridade | Atendido |
 */
-void imprimePetAtendido(Pet* p, int max_nome);
+void imprimePetAtendido(Pet* p, int max_nome, int max_especie);
 
 /*
 Imprime os dados de um pet não atentido
@@ -47,6 +47,7 @@ void imprimeFila(Fila *fila);
 void imprimeFilaAtendidos(Fila *fila);
 //auxiliar
 int maiorNome(Fila *fila);
+int maiorEspecie(Fila *fila);
 
 
 /**
@@ -178,18 +179,25 @@ int idIsValid(int new_id, Fila *fila_normal, Fila *fila_emergencia, Fila *fila_a
     return 0;
 }
 
-void imprimePetAtendido(Pet* p, int max)
+void imprimePetAtendido(Pet* p, int max_nome, int max_especie)
 {
-    char nome[max];
-    memset(nome,' ',max);
-    nome[max] = '\0';
+    char nome[max_nome];
+    memset(nome,' ',max_nome);
+    nome[max_nome] = '\0';
     int tam = (strlen(p->nome));
     for(int i=0; i<tam;i++){
         nome[i] = p->nome[i];
     }
+    char especie[max_especie];
+    memset(especie,' ',max_especie);
+    especie[max_especie] = '\0';
+    tam = (strlen(p->especie));
+    for(int i=0; i<tam;i++){
+        especie[i] = p->especie[i];
+    }
     printf("\n\t%d | %s ",p->id,nome);
                     /**Perguntar para a lúcia sobre a idade: pode ter 3 digitos?*/
-    printf("| %s | %02d | %s | %s ",p->especie,p->idade,(p->prioridade) ? ("EMERGENCIA") : ("  NORMAL  "), (p->atendido) ? ("        ATENDIDO        ") : ("AGUARDANDO ATENDIMENTO"));
+    printf("| %s | %02d | %s | %s ",especie,p->idade,(p->prioridade) ? ("EMERGENCIA") : ("  NORMAL  "), (p->atendido) ? ("        ATENDIDO        ") : ("AGUARDANDO ATENDIMENTO"));
 }
 
 void imprimePet(Pet* p)
@@ -212,11 +220,12 @@ void imprimeFila(Fila *fila){
 //função para imprimir pets da fila de atendidos
 void imprimeFilaAtendidos(Fila *fila){
     Nos *aux;
+    int maxEspecies = maiorEspecie(fila);
     int max = maiorNome(fila);
     if(!VaziaFila(fila)){
         aux = fila->ini;
         while(aux != NULL){
-            imprimePetAtendido(aux->pet,max);
+            imprimePetAtendido(aux->pet,max,maxEspecies);
             aux = aux->prox;
         }
     }
@@ -227,6 +236,19 @@ int maiorNome(Fila *fila){
     int max = strlen(aux->pet->nome);
     while(aux!=NULL){
         int temp = strlen(aux->pet->nome);
+        if(temp > max){
+            max = temp;
+        }
+        aux = aux->prox;
+    }
+    return max;
+}
+
+int maiorEspecie(Fila *fila){
+    Nos* aux = fila->ini;
+    int max = strlen(aux->pet->especie);
+    while(aux!=NULL){
+        int temp = strlen(aux->pet->especie);
         if(temp > max){
             max = temp;
         }

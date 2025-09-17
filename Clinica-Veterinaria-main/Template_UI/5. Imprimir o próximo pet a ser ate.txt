@@ -1,9 +1,0 @@
-5. Imprimir o próximo pet a ser atendido
---- Proximo a ser Atendido ---
-
-Nome: Rex
-Especie: Cachorro
-Tipo: Emergencia
-
-----------------------------
-Pressione ENTER para continuar...

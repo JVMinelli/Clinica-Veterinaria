@@ -69,7 +69,7 @@ int main(){
                     petAux->atendido = 1;
                     InsereFila(fila_atendidos, petAux);
                     printf("\nO pet %s foi atendido e removido da fila.",petAux->nome);
-                    imprimePetAtendido(petAux,strlen(perAux->nome));
+                    imprimePetAtendido(petAux,strlen(petAux->nome), strlen(petAux->especie));
                 }
             }
             else{
@@ -77,7 +77,7 @@ int main(){
                 petAux->atendido = 1;
                 InsereFila(fila_atendidos, petAux);
                 printf("\nO pet %s foi atendido e removido da fila.",petAux->nome);
-                imprimePetAtendido(petAux,strlen(perAux->nome));
+                imprimePetAtendido(petAux,strlen(petAux->nome), strlen(petAux->especie));
             }
             break;
 
@@ -112,7 +112,7 @@ int main(){
 
                 Pet *petId = buscarPetId(id, fila_emergencia, fila_normal, fila_atendidos);
                 if(petId != NULL){
-                    imprimePetAtendido(petId,strlen(petId->nome));
+                    imprimePetAtendido(petId,strlen(petId->nome), strlen(petId->especie));
                 }
                 else{
                     printf("nenhum pet com esse id foi encontrado!\n");
