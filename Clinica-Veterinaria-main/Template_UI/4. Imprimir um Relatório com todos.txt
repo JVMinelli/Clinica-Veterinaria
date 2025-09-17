@@ -1,0 +1,22 @@
+4. Imprimir um Relatório com todos os pets na fila de atendimento tanto de emergência
+quanto normal
+================================================
+===       Relatorio de Fila de Espera        ===
+================================================
+
+--- FILA DE EMERGENCIA ---
+ID  | Nome      | Especie   | Idade | Data Nascimento | Prioridade
+------------------------------------------------------------------
+451 | Rex       | Cachorro  | 5     | 15/05/2019      | 0
+237 | Miau      | Gato      | 8     | 01/02/2017      | 0
+
+--- FILA NORMAL ---
+ID  | Nome      | Especie   | Idade | Data Nascimento | Prioridade
+------------------------------------------------------------------
+123 | Bolinha   | Gato      | 2     | 10/10/2023      | 1
+834 | Piu-Piu   | Passaro   | 1     | 20/09/2024      | 1
+
+Pressione ENTER para continuar...
+
+--- FILA DE EMERGENCIA ---
+[Fila de Emergencia Vazia]
