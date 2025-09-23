@@ -23,8 +23,6 @@ int VaziaFila(Fila* f);
 void InsereFila(Fila* f, Pet *v);
 Pet* RetiraFila(Fila* f);
 Fila* liberaFila(Fila* f);
-/**removido função de imprimir fila*/
-// void imprimeFila(Fila* f);
 
 int VaziaFila(Fila* f)
 {
@@ -90,4 +88,4 @@ Fila* liberaFila(Fila* f)
     free(f);
     return NULL;
 }
-#endif // FILA_H_INCLUDED
+#endif

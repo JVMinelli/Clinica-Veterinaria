@@ -6,6 +6,16 @@
 #include <locale.h>
 #include <string.h>
 
+#define COLOR_RED "\x1b[31m"
+#define COLOR_GREEN "\x1b[32m"
+#define COLOR_YELLOW "\x1b[33m"
+#define COLOR_RESET "\x1b[37m"
+
+#define OK COLOR_GREEN "[SUCESSO]" COLOR_RESET
+#define FAIL COLOR_RED "[FALHA]" COLOR_RESET
+#define INFO COLOR_YELLOW "[INFO]" COLOR_RESET
+
+
 int main(){
 
     srand(time(NULL));
@@ -47,10 +57,10 @@ int main(){
         case 1:
             Pet *pet = criaPet(fila_normal,fila_emergencia,fila_atendidos);
             if(pet != NULL){
-                printf("\n\t[SUCESSO] Pet %s (ID: %d) adicionado a fila de %s.",pet->nome,pet->id,(pet->prioridade) ? ("EMERGENCIA") : ("NORMAL"));
+                printf("\n\t%s Pet %s (ID: %d) adicionado a fila de %s.",OK,pet->nome,pet->id,(pet->prioridade) ? ("EMERGENCIA") : ("NORMAL"));
             }
             else{
-                printf("\n\t[FALHA] Não foi possivel cadastrar o pet");
+                printf("\n\t%s Não foi possivel cadastrar o pet",FAIL);
             }
             if(pet->prioridade == 1){
                 InsereFila(fila_emergencia, pet);
@@ -62,13 +72,13 @@ int main(){
         case 2:
             if(VaziaFila(fila_emergencia)){
                 if(VaziaFila(fila_normal)){
-                    printf("\n[INFO] Nao ha pets na fila de espera.");
+                    printf("\n%s Nao ha pets na fila de espera.",INFO);
                 }
                 else{
                     Pet *petAux = RetiraFila(fila_normal);
                     petAux->atendido = 1;
                     InsereFila(fila_atendidos, petAux);
-                    printf("\nO pet %s foi atendido e removido da fila.",petAux->nome);
+                    printf("\n%s O pet %s foi atendido e removido da fila.",INFO,petAux->nome);
                     imprimePetAtendido(petAux,strlen(petAux->nome), strlen(petAux->especie));
                 }
             }
@@ -76,7 +86,7 @@ int main(){
                 Pet *petAux = RetiraFila(fila_emergencia);
                 petAux->atendido = 1;
                 InsereFila(fila_atendidos, petAux);
-                printf("\nO pet %s foi atendido e removido da fila.",petAux->nome);
+                printf("\n%s O pet %s foi atendido e removido da fila.",INFO,petAux->nome);
                 imprimePetAtendido(petAux,strlen(petAux->nome), strlen(petAux->especie));
             }
             break;
@@ -102,7 +112,7 @@ int main(){
                     imprimeFilaAtendidos(nomes);
                 }
                 else{
-                    printf("nenhum pet com esse nome foi encontrado!\n");
+                    printf(" Nenhum pet com esse nome foi encontrado!\n");
                 }
             }
             if(a == 1){
