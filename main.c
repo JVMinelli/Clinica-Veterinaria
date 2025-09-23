@@ -42,7 +42,7 @@ int main(){
     scanf("%d", &operacao);
     fflush(stdin);
 
-    while(operacao!=7){
+    while(operacao!=8){
         switch(operacao){
         case 1:
             Pet *pet = criaPet(fila_normal,fila_emergencia,fila_atendidos);
@@ -153,7 +153,9 @@ int main(){
             break;
 
         case 7:
-            return 0; //exit(0);
+            system("cls");
+            printf("Finalizando sistema... Obrigado por utilizar!");
+            return 0; //exit(1)
             break;
 
         default:
