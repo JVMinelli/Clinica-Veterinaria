@@ -25,87 +25,32 @@ typedef struct petInfo
     int atendido;
 }Pet;
 
-/**
-* Funções de Impressão de um Pet
-*/
-/*
-Imprime os dados de um pet já atendido
-ID | Nome | Espécie | Idade | Prioridade | Atendido |
-*/
+
 void imprimePetAtendido(Pet* p, int max_nome, int max_especie);
-
-/*
-Imprime os dados de um pet não atentido
-ID | Nome | Espécie | Idade | Data de Nascimento | Prioridade
-*/
 void imprimePet(Pet* p);
-
-/**
-* Funções de impreção das Filas
-*/
 void imprimeFila(Fila *fila);
 void imprimeFilaAtendidos(Fila *fila);
-//auxiliar
 int maiorNome(Fila *fila);
 int maiorEspecie(Fila *fila);
 
-
-/**
-* Função para criar um Pet
-*/
 Pet* criaPet(Fila *fila_normal, Fila *fila_emergencia, Fila *fila_atendidos);
-//Auxiliares
 int idIsValid(int new_id, Fila *fila_normal, Fila *fila_emergencia, Fila *fila_atendidos);
 int generateId(Fila *fila_normal, Fila *fila_emergencia, Fila *fila_atendidos);
-
-/**
-* Funções de busca
-*/
-/*  @brief: Busca por Nome
-        se for encontrado retorna uma fila de Pet com pets que tem o nome de busca. Faz comparação em tres filas;
-        se não retorna NULL;
-    @params: nome, fila_emergencia,fila_normal,fila_atendidos
-*/
 Fila* buscarPetNome(char *nome, Fila *fila_emergencia, Fila *fila_normal, Fila *fila_atendidos);
-/*  @brief: Busca por Id
-        se encontrado retorna o pet com id de busca; se não for retorna NULL;
-    @params: id, fila_emergencia, fila_normal, fila_atendidos
-*/
 Pet* buscarPetId(int id, Fila *fila_emergencia, Fila *fila_normal, Fila *fila_atendidos);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
 Pet* criaPet(Fila *fila_normal, Fila *fila_emergencia, Fila *fila_atendidos) {
     Pet* new_pet = (Pet*)malloc(sizeof(Pet));
     if (new_pet == NULL) {
-        printf("Erro: Falha na alocação de memória para o Pet.\n");
+        printf("Erro: Falha na alocaÃ§Ã£o de memÃ³ria para o Pet.\n");
         return NULL;
     }
 
     new_pet->data = (Data*)malloc(sizeof(Data));
     if (new_pet->data == NULL) {
-        printf("Erro: Falha na alocação de memória para a data.\n");
+        printf("Erro: Falha na alocaÃ§Ã£o de memÃ³ria para a data.\n");
         free(new_pet);
         return NULL;
     }
@@ -124,34 +69,34 @@ Pet* criaPet(Fila *fila_normal, Fila *fila_emergencia, Fila *fila_atendidos) {
         fflush(stdin);
 
         if (itens_lidos != 1) {
-            printf("Entrada inválida. Por favor, digite um número para a idade.\n");
+            printf("Entrada invÃ¡lida. Por favor, digite um nÃºmero para a idade.\n");
         }
     } while (itens_lidos != 1);
     while (getchar() != '\n');
-    printf("\nDigite a espécie do pet: ");
+    printf("\nDigite a espÃ©cie do pet: ");
     fgets(new_pet->especie,sizeof(new_pet->especie),stdin);
     new_pet->especie[strcspn(new_pet->especie, "\n")] = '\0';
     fflush(stdin);
     do {
         printf("\nDigite a data de nascimento do pet (DD/MM/AAAA). Ex: 02/09/2005: ");
         itens_lidos = scanf("%d/%d/%d", &new_pet->data->dia, &new_pet->data->mes, &new_pet->data->ano);
-        fflush(stdin);
+        while (getchar() != '\n');
 
         if (itens_lidos != 3) {
-            printf("Formato de data inválido. Tente novamente.\n");
+            printf("Formato de data invÃ¡lido. Tente novamente.\n");
         }
     } while (itens_lidos != 3);
 
     char prioridade;
     do {
-        printf("\nEmergência? (S/N): ");
+        printf("\nEmergÃªncia? (S/N): ");
         itens_lidos = scanf(" %c", &prioridade);
         fflush(stdin);
 
         prioridade = toupper(prioridade);
 
         if (itens_lidos != 1 || (prioridade != 'S' && prioridade != 'N')) {
-            printf("Opção inválida. Por favor, digite 'S' para sim ou 'N' para não.\n");
+            printf("OpÃ§Ã£o invÃ¡lida. Por favor, digite 'S' para sim ou 'N' para nÃ£o.\n");
         }
     } while (itens_lidos != 1 || (prioridade != 'S' && prioridade != 'N'));
 
@@ -195,9 +140,18 @@ void imprimePetAtendido(Pet* p, int max_nome, int max_especie)
     for(int i=0; i<tam;i++){
         especie[i] = p->especie[i];
     }
+
+    char idade_padding[6];
+    char str_number[20];
+    fflush(stdin);
+    sprintf(str_number, "%d", p->idade);
+    memset(idade_padding,' ',6);
+    idade_padding[5] = '\0';
+    for(int i=0; i<2;i++){
+        idade_padding[i] = str_number[i];
+    }
     printf("\n\t%d | %s ",p->id,nome);
-                    /**Perguntar para a lúcia sobre a idade: pode ter 3 digitos?*/
-    printf("| %s | %02d | %s | %s ",especie,p->idade,(p->prioridade) ? ("EMERGENCIA") : ("  NORMAL  "), (p->atendido) ? ("        ATENDIDO        ") : ("AGUARDANDO ATENDIMENTO"));
+    printf("| %s | %s | %s | %s ",especie,idade_padding,(p->prioridade) ? ("EMERGENCIA") : ("  NORMAL  "), (p->atendido) ? ("ATENDIDO") : ("AGUARDANDO ATENDIMENTO"));
 }
 
 void imprimePet(Pet* p)
@@ -205,7 +159,6 @@ void imprimePet(Pet* p)
     printf("\n\t%d | %s | %s | %02d | %02d/%02d/%04d | %s\n",p->id,p->nome,p->especie,p->idade,p->data->dia,p->data->mes,p->data->ano,(p->prioridade) ? ("EMERGENCIA") : ("NORMAL"));
 }
 
-//função imprimir fila de pets - emergencia e normal
 void imprimeFila(Fila *fila){
     Nos *aux;
     if(!VaziaFila(fila)){
@@ -217,15 +170,34 @@ void imprimeFila(Fila *fila){
     }
 }
 
-//função para imprimir pets da fila de atendidos
 void imprimeFilaAtendidos(Fila *fila){
     Nos *aux;
-    int maxEspecies = maiorEspecie(fila);
-    int max = maiorNome(fila);
+
+    int max_especies = maiorEspecie(fila);
+    int max_nome = maiorNome(fila);
+    char nome_t[max_nome];
+    char nome[5] = "Nome";
+    memset(nome_t,' ',max_nome);
+    nome_t[max_nome] = '\0';
+    int tam = (strlen(nome));
+    for(int i=0; i<tam;i++){
+        nome_t[i] = nome[i];
+    }
+
+    char especie_t[max_nome];
+    char especie[8] = "Especie";
+    memset(especie_t,' ',max_nome);
+    especie_t[max_nome] = '\0';
+    tam = (strlen(especie));
+    for(int i=0; i<tam;i++){
+        especie_t[i] = especie[i];
+    }
+    printf("\n\tID  | %s | %s| Idade | Prioridade | Atendido \n",nome_t,especie_t);
+
     if(!VaziaFila(fila)){
         aux = fila->ini;
         while(aux != NULL){
-            imprimePetAtendido(aux->pet,max,maxEspecies);
+            imprimePetAtendido(aux->pet,max_nome,max_especies);
             aux = aux->prox;
         }
     }
@@ -320,4 +292,4 @@ Pet* buscarPetId(int id, Fila *fila_emergencia, Fila *fila_normal, Fila *fila_at
     return NULL;
 }
 
-#endif // PET_H_INCLUDED
+#endif
