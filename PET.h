@@ -25,14 +25,12 @@ typedef struct petInfo
     int atendido;
 }Pet;
 
-
 void imprimePetAtendido(Pet* p, int max_nome, int max_especie);
 void imprimePet(Pet* p);
 void imprimeFila(Fila *fila);
 void imprimeFilaAtendidos(Fila *fila);
 int maiorNome(Fila *fila);
 int maiorEspecie(Fila *fila);
-
 Pet* criaPet(Fila *fila_normal, Fila *fila_emergencia, Fila *fila_atendidos);
 int idIsValid(int new_id, Fila *fila_normal, Fila *fila_emergencia, Fila *fila_atendidos);
 int generateId(Fila *fila_normal, Fila *fila_emergencia, Fila *fila_atendidos);
@@ -44,13 +42,13 @@ Pet* buscarPetId(int id, Fila *fila_emergencia, Fila *fila_normal, Fila *fila_at
 Pet* criaPet(Fila *fila_normal, Fila *fila_emergencia, Fila *fila_atendidos) {
     Pet* new_pet = (Pet*)malloc(sizeof(Pet));
     if (new_pet == NULL) {
-        printf("Erro: Falha na aloca√ß√£o de mem√≥ria para o Pet.\n");
+        printf("Erro: Falha na alocaÁ„o de memÛria para o Pet.\n");
         return NULL;
     }
 
     new_pet->data = (Data*)malloc(sizeof(Data));
     if (new_pet->data == NULL) {
-        printf("Erro: Falha na aloca√ß√£o de mem√≥ria para a data.\n");
+        printf("Erro: Falha na alocaÁ„o de memÛria para a data.\n");
         free(new_pet);
         return NULL;
     }
@@ -69,11 +67,11 @@ Pet* criaPet(Fila *fila_normal, Fila *fila_emergencia, Fila *fila_atendidos) {
         fflush(stdin);
 
         if (itens_lidos != 1) {
-            printf("Entrada inv√°lida. Por favor, digite um n√∫mero para a idade.\n");
+            printf("Entrada inv·lida. Por favor, digite um n˙mero para a idade.\n");
         }
     } while (itens_lidos != 1);
     while (getchar() != '\n');
-    printf("\nDigite a esp√©cie do pet: ");
+    printf("\nDigite a espÈcie do pet: ");
     fgets(new_pet->especie,sizeof(new_pet->especie),stdin);
     new_pet->especie[strcspn(new_pet->especie, "\n")] = '\0';
     fflush(stdin);
@@ -83,20 +81,20 @@ Pet* criaPet(Fila *fila_normal, Fila *fila_emergencia, Fila *fila_atendidos) {
         while (getchar() != '\n');
 
         if (itens_lidos != 3) {
-            printf("Formato de data inv√°lido. Tente novamente.\n");
+            printf("Formato de data inv·lido. Tente novamente.\n");
         }
     } while (itens_lidos != 3);
 
     char prioridade;
     do {
-        printf("\nEmerg√™ncia? (S/N): ");
+        printf("\nEmergÍncia? (S/N): ");
         itens_lidos = scanf(" %c", &prioridade);
         fflush(stdin);
 
         prioridade = toupper(prioridade);
 
         if (itens_lidos != 1 || (prioridade != 'S' && prioridade != 'N')) {
-            printf("Op√ß√£o inv√°lida. Por favor, digite 'S' para sim ou 'N' para n√£o.\n");
+            printf("OpÁ„o inv·lida. Por favor, digite 'S' para sim ou 'N' para n„o.\n");
         }
     } while (itens_lidos != 1 || (prioridade != 'S' && prioridade != 'N'));
 
@@ -172,7 +170,6 @@ void imprimeFila(Fila *fila){
 
 void imprimeFilaAtendidos(Fila *fila){
     Nos *aux;
-
     int max_especies = maiorEspecie(fila);
     int max_nome = maiorNome(fila);
     char nome_t[max_nome];
