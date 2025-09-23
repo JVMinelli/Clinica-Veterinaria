@@ -24,18 +24,18 @@ int main(){
     /** Crias filas de atendimento*/
     Fila *fila_normal = CriaFila();
     Fila *fila_emergencia = CriaFila();
-    /** Fila de pets já atendidos*/
+    /** Fila de pets jÃ¡ atendidos*/
     Fila *fila_atendidos = CriaFila();
 
     const char* inicio1 = "\n=========================================================\n";
-    const char* inicio2 = "\n===   Sistema de Gerenciamento - Clinica Veterinária  ===\n";
+    const char* inicio2 = "\n===   Sistema de Gerenciamento - Clinica VeterinÃ¡ria  ===\n";
     const char* inicio3 = "\n=========================================================\n";
     const char* dog1 = "\n           / __";
     const char* dog2 = "\n          (    @ ___";
     const char* dog3 = "\n          /         O";
     const char* dog4 = "\n         /   (_____/";
     const char* dog5 = "\n        /____/   U";
-    const char* bem_vindo = "\nBem-vindo! Por favor, escolha uma opção: \n";
+    const char* bem_vindo = "\nBem-vindo! Por favor, escolha uma opÃ§Ã£o: \n";
     const char* opcoes = "\n[1] Adicionar Pet a Fila de Atendimento \n[2] Chamar Proximo Pet para Atendimento \n[3] Buscar Pet (por ID ou Nome) \n[4] Listar Pets na Fila de Espera \n[5] Ver Proximo Pet da Fila \n[6] Listar Pets ja Atendidos \n[7] Sair do Sistema \n\n\t>> Sua escolha:";
 
     int operacao;
@@ -52,7 +52,7 @@ int main(){
     scanf("%d", &operacao);
     fflush(stdin);
 
-    while(operacao!=7){
+    while(operacao!=8){
         switch(operacao){
         case 1:
             Pet *pet = criaPet(fila_normal,fila_emergencia,fila_atendidos);
@@ -60,7 +60,7 @@ int main(){
                 printf("\n\t%s Pet %s (ID: %d) adicionado a fila de %s.",OK,pet->nome,pet->id,(pet->prioridade) ? ("EMERGENCIA") : ("NORMAL"));
             }
             else{
-                printf("\n\t%s Não foi possivel cadastrar o pet",FAIL);
+                printf("\n\t%s NÃ£o foi possivel cadastrar o pet",FAIL);
             }
             if(pet->prioridade == 1){
                 InsereFila(fila_emergencia, pet);
@@ -78,6 +78,7 @@ int main(){
                     Pet *petAux = RetiraFila(fila_normal);
                     petAux->atendido = 1;
                     InsereFila(fila_atendidos, petAux);
+
                     printf("\n%s O pet %s foi atendido e removido da fila.",INFO,petAux->nome);
                     imprimePetAtendido(petAux,strlen(petAux->nome), strlen(petAux->especie));
                 }
@@ -86,6 +87,7 @@ int main(){
                 Pet *petAux = RetiraFila(fila_emergencia);
                 petAux->atendido = 1;
                 InsereFila(fila_atendidos, petAux);
+
                 printf("\n%s O pet %s foi atendido e removido da fila.",INFO,petAux->nome);
                 imprimePetAtendido(petAux,strlen(petAux->nome), strlen(petAux->especie));
             }
@@ -132,7 +134,7 @@ int main(){
             break;
 
         case 4:
-            printf("\nfila de emergência: \n");
+            printf("\nfila de emergÃªncia: \n");
             imprimeFila(fila_emergencia);
             printf("\nfila de normal: \n");
             imprimeFila(fila_normal);
@@ -163,11 +165,13 @@ int main(){
             break;
 
         case 7:
-            return 0; //exit(0);
+            system("cls");
+            printf("Finalizando sistema... Obrigado por utilizar!");
+            return 0; //exit(1)
             break;
 
         default:
-            printf("opção invalida, digite uma opção valida\n");
+            printf("opÃ§Ã£o invalida, digite uma opÃ§Ã£o valida\n");
             break;
         }
         printf("\n");
