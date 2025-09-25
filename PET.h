@@ -148,6 +148,7 @@ void imprimePetAtendido(Pet* p, int max_nome, int max_especie)
     for(int i=0; i<2;i++){
         idade_padding[i] = str_number[i];
     }
+
     printf("\n\t%d | %s ",p->id,nome);
     printf("| %s | %s | %s | %s ",especie,idade_padding,(p->prioridade) ? ("EMERGENCIA") : ("  NORMAL  "), (p->atendido) ? ("ATENDIDO") : ("AGUARDANDO ATENDIMENTO"));
 }

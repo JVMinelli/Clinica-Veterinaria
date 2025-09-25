@@ -112,7 +112,7 @@ int main(){
                     imprimeFilaAtendidos(nomes);
                 }
                 else{
-                    printf(" Nenhum pet com esse nome foi encontrado!\n");
+                    printf("%s Nenhum pet com esse nome foi encontrado!\n", INFO);
                 }
             }
             if(a == 1){
@@ -125,7 +125,7 @@ int main(){
                     imprimePetAtendido(petId,strlen(petId->nome), strlen(petId->especie));
                 }
                 else{
-                    printf("nenhum pet com esse id foi encontrado!\n");
+                    printf("%s nenhum pet com esse id foi encontrado!\n", INFO);
                 }
             }
 
@@ -141,7 +141,7 @@ int main(){
         case 5:
             if(VaziaFila(fila_emergencia)){
                 if(VaziaFila(fila_normal)){
-                    printf("Fila vazia");
+                    printf("%s Fila vazia", INFO);
                 }
                 else{
                     imprimePet(fila_normal->ini->pet);
@@ -155,7 +155,7 @@ int main(){
 
         case 6:
             if(VaziaFila(fila_atendidos)){
-                printf("Nenhum pet foi atendido!");
+                printf("%s Nenhum pet foi atendido!",INFO);
             }
             else{
                 imprimeFilaAtendidos(fila_atendidos);
@@ -167,7 +167,7 @@ int main(){
             break;
 
         default:
-            printf("opção invalida, digite uma opção valida\n");
+            printf("%s opção invalida, digite uma opção valida\n", FAIL);
             break;
         }
         printf("\n");
