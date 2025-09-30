@@ -5,21 +5,14 @@
 #include "FILA.h"
 #include <locale.h>
 #include <string.h>
-
-#define COLOR_RED "\x1b[31m"
-#define COLOR_GREEN "\x1b[32m"
-#define COLOR_YELLOW "\x1b[33m"
-#define COLOR_RESET "\x1b[37m"
-
-#define OK COLOR_GREEN "[SUCESSO]" COLOR_RESET
-#define FAIL COLOR_RED "[FALHA]" COLOR_RESET
-#define INFO COLOR_YELLOW "[INFO]" COLOR_RESET
+#include <windows.h>
 
 
 int main(){
 
     srand(time(NULL));
     setlocale(LC_ALL, "Portuguese");
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
     /** Crias filas de atendimento*/
     Fila *fila_normal = CriaFila();
@@ -52,15 +45,22 @@ int main(){
     scanf("%d", &operacao);
     fflush(stdin);
 
+
     while(operacao!=7){
         switch(operacao){
-        case 1:
+        case 1:{
             Pet *pet = criaPet(fila_normal,fila_emergencia,fila_atendidos);
             if(pet != NULL){
-                printf("\n\t%s Pet %s (ID: %d) adicionado a fila de %s.",OK,pet->nome,pet->id,(pet->prioridade) ? ("EMERGENCIA") : ("NORMAL"));
+                SetConsoleTextAttribute(hConsole, 6);
+                printf("[INFO]");
+                SetConsoleTextAttribute(hConsole, 7);
+                printf("\n\t Pet %s (ID: %d) adicionado a fila de %s.",pet->nome,pet->id,(pet->prioridade) ? ("EMERGENCIA") : ("NORMAL"));
             }
             else{
-                printf("\n\t%s Não foi possivel cadastrar o pet",FAIL);
+                SetConsoleTextAttribute(hConsole, 12);
+                printf("\n\t[INFO]");
+                SetConsoleTextAttribute(hConsole, 7);
+                printf(" Não foi possivel cadastrar o pet");
             }
             if(pet->prioridade == 1){
                 InsereFila(fila_emergencia, pet);
@@ -69,16 +69,23 @@ int main(){
                 InsereFila(fila_normal, pet);
             }
             break;
+        }
         case 2:
             if(VaziaFila(fila_emergencia)){
                 if(VaziaFila(fila_normal)){
-                    printf("\n%s Nao ha pets na fila de espera.",INFO);
+                    SetConsoleTextAttribute(hConsole, 6);
+                    printf("\n[INFO]");
+                    SetConsoleTextAttribute(hConsole, 7);
+                    printf(" Não há pets na fila de espera.");
                 }
                 else{
                     Pet *petAux = RetiraFila(fila_normal);
                     petAux->atendido = 1;
                     InsereFila(fila_atendidos, petAux);
-                    printf("\n%s O pet %s foi atendido e removido da fila.",INFO,petAux->nome);
+                    SetConsoleTextAttribute(hConsole, 6);
+                    printf("\n[INFO]");
+                    SetConsoleTextAttribute(hConsole, 7);
+                    printf(" O pet %s foi atendido e removido da fila.",petAux->nome);
                     imprimePetAtendido(petAux,strlen(petAux->nome), strlen(petAux->especie));
                 }
             }
@@ -86,12 +93,15 @@ int main(){
                 Pet *petAux = RetiraFila(fila_emergencia);
                 petAux->atendido = 1;
                 InsereFila(fila_atendidos, petAux);
-                printf("\n%s O pet %s foi atendido e removido da fila.",INFO,petAux->nome);
+                SetConsoleTextAttribute(hConsole, 6);
+                printf("\n[INFO]");
+                SetConsoleTextAttribute(hConsole, 7);
+                printf(" O pet %s foi atendido e removido da fila.",petAux->nome);
                 imprimePetAtendido(petAux,strlen(petAux->nome), strlen(petAux->especie));
             }
             break;
 
-        case 3:
+        case 3:{
             int a = -1;
             do{
                 printf("Deseja buscar o pet por nome(0) ou por Id(1)?: ");
@@ -102,10 +112,8 @@ int main(){
             if(a == 0){
                 printf("Qual o nome do pet? ");
                 char nome[50];
-                fflush(stdin);
                 fgets(nome,sizeof(nome),stdin);
                 nome[strcspn(nome, "\n")] = '\0';
-                fflush(stdin);
 
                 Fila *nomes = buscarPetNome(nome, fila_emergencia, fila_normal, fila_atendidos);
                 if(!VaziaFila(nomes)){
@@ -130,7 +138,7 @@ int main(){
             }
 
             break;
-
+        }
         case 4:
             printf("\nfila de emergência: \n");
             imprimeFila(fila_emergencia);
@@ -163,7 +171,7 @@ int main(){
             break;
 
         case 7:
-            return 0; //exit(0);
+            return 0;
             break;
 
         default:

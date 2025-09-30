@@ -52,29 +52,28 @@ Pet* criaPet(Fila *fila_normal, Fila *fila_emergencia, Fila *fila_atendidos) {
         free(new_pet);
         return NULL;
     }
-    while (getchar() != '\n');
-    printf("\nDigite o nome do pet: ");
     fflush(stdin);
+    printf("\nDigite o nome do pet: ");
     fgets(new_pet->nome,sizeof(new_pet->nome),stdin);
     new_pet->nome[strcspn(new_pet->nome, "\n")] = '\0';
-    fflush(stdin);
+
 
     int itens_lidos;
 
     do {
         printf("\nDigite a idade do pet: ");
         itens_lidos = scanf("%d", &new_pet->idade);
-        fflush(stdin);
+        while (getchar() != '\n');
+
 
         if (itens_lidos != 1) {
             printf("Entrada inválida. Por favor, digite um número para a idade.\n");
         }
     } while (itens_lidos != 1);
-    while (getchar() != '\n');
     printf("\nDigite a espécie do pet: ");
     fgets(new_pet->especie,sizeof(new_pet->especie),stdin);
     new_pet->especie[strcspn(new_pet->especie, "\n")] = '\0';
-    fflush(stdin);
+
     do {
         printf("\nDigite a data de nascimento do pet (DD/MM/AAAA). Ex: 02/09/2005: ");
         itens_lidos = scanf("%d/%d/%d", &new_pet->data->dia, &new_pet->data->mes, &new_pet->data->ano);
@@ -89,7 +88,7 @@ Pet* criaPet(Fila *fila_normal, Fila *fila_emergencia, Fila *fila_atendidos) {
     do {
         printf("\nEmergência? (S/N): ");
         itens_lidos = scanf(" %c", &prioridade);
-        fflush(stdin);
+        while (getchar() != '\n');
 
         prioridade = toupper(prioridade);
 
@@ -124,14 +123,15 @@ int idIsValid(int new_id, Fila *fila_normal, Fila *fila_emergencia, Fila *fila_a
 
 void imprimePetAtendido(Pet* p, int max_nome, int max_especie)
 {
-    char nome[max_nome];
+    char nome[max_nome+1];
     memset(nome,' ',max_nome);
     nome[max_nome] = '\0';
     int tam = (strlen(p->nome));
     for(int i=0; i<tam;i++){
         nome[i] = p->nome[i];
     }
-    char especie[max_especie];
+
+    char especie[max_especie+1];
     memset(especie,' ',max_especie);
     especie[max_especie] = '\0';
     tam = (strlen(p->especie));
@@ -141,7 +141,6 @@ void imprimePetAtendido(Pet* p, int max_nome, int max_especie)
 
     char idade_padding[6];
     char str_number[20];
-    fflush(stdin);
     sprintf(str_number, "%d", p->idade);
     memset(idade_padding,' ',6);
     idade_padding[5] = '\0';
@@ -172,7 +171,8 @@ void imprimeFilaAtendidos(Fila *fila){
     Nos *aux;
     int max_especies = maiorEspecie(fila);
     int max_nome = maiorNome(fila);
-    char nome_t[max_nome];
+
+    char nome_t[max_nome+1];
     char nome[5] = "Nome";
     memset(nome_t,' ',max_nome);
     nome_t[max_nome] = '\0';
@@ -181,7 +181,7 @@ void imprimeFilaAtendidos(Fila *fila){
         nome_t[i] = nome[i];
     }
 
-    char especie_t[max_nome];
+    char especie_t[max_nome+1];
     char especie[8] = "Especie";
     memset(especie_t,' ',max_nome);
     especie_t[max_nome] = '\0';
@@ -189,6 +189,7 @@ void imprimeFilaAtendidos(Fila *fila){
     for(int i=0; i<tam;i++){
         especie_t[i] = especie[i];
     }
+
     printf("\n\tID  | %s | %s| Idade | Prioridade | Atendido \n",nome_t,especie_t);
 
     if(!VaziaFila(fila)){
@@ -233,7 +234,7 @@ Fila* buscarPetNome(char *nome, Fila *fila_emergencia, Fila *fila_normal, Fila *
 
     aux = fila_normal->ini;
     while(aux != NULL){
-        if(strncmp(aux->pet->nome,nome,sizeof(aux->pet->nome))==0){
+        if(strcmp(aux->pet->nome,nome)==0){
             InsereFila(fila_nomes, aux->pet);
         }
         aux = aux->prox;
@@ -241,7 +242,7 @@ Fila* buscarPetNome(char *nome, Fila *fila_emergencia, Fila *fila_normal, Fila *
 
     aux = fila_emergencia->ini;
     while(aux != NULL){
-        if(strncmp(aux->pet->nome,nome,sizeof(aux->pet->nome))==0){
+        if(strcmp(aux->pet->nome,nome)==0){
             InsereFila(fila_nomes, aux->pet);
         }
         aux = aux->prox;
@@ -249,7 +250,7 @@ Fila* buscarPetNome(char *nome, Fila *fila_emergencia, Fila *fila_normal, Fila *
 
     aux = fila_atendidos->ini;
     while(aux != NULL){
-        if(strncmp(aux->pet->nome,nome,sizeof(aux->pet->nome))==0){
+        if(strcmp(aux->pet->nome,nome)==0){
             InsereFila(fila_nomes, aux->pet);
         }
         aux = aux->prox;
