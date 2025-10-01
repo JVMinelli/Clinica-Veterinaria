@@ -52,7 +52,7 @@ Pet* criaPet(Fila *fila_normal, Fila *fila_emergencia, Fila *fila_atendidos) {
         free(new_pet);
         return NULL;
     }
-    fflush(stdin);
+    while (getchar() != '\n');
     printf("\nDigite o nome do pet: ");
     fgets(new_pet->nome,sizeof(new_pet->nome),stdin);
     new_pet->nome[strcspn(new_pet->nome, "\n")] = '\0';
