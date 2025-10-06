@@ -181,16 +181,16 @@ void imprimeFilaAtendidos(Fila *fila){
         nome_t[i] = nome[i];
     }
 
-    char especie_t[max_nome+1];
+    char especie_t[max_especies+1];
     char especie[8] = "Especie";
-    memset(especie_t,' ',max_nome);
-    especie_t[max_nome] = '\0';
+    memset(especie_t,' ',max_especies);
+    especie_t[max_especies] = '\0';
     tam = (strlen(especie));
     for(int i=0; i<tam;i++){
         especie_t[i] = especie[i];
     }
 
-    printf("\n\tID  | %s | %s| Idade | Prioridade | Atendido \n",nome_t,especie_t);
+    printf("\n\tID  | %s | %s | Idade | Prioridade | Atendido \n",nome_t,especie_t);
 
     if(!VaziaFila(fila)){
         aux = fila->ini;
@@ -211,6 +211,10 @@ int maiorNome(Fila *fila){
         }
         aux = aux->prox;
     }
+    if (max<5)
+    {
+        max=5;
+    }
     return max;
 }
 
@@ -223,6 +227,10 @@ int maiorEspecie(Fila *fila){
             max = temp;
         }
         aux = aux->prox;
+    }
+    if (max<7)
+    {
+        max=7;
     }
     return max;
 }

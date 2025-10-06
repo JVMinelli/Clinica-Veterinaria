@@ -51,7 +51,7 @@ int main(){
     fflush(stdin);
 
 
-    while(operacao!=7){
+    while(operacao!=8){
         switch(operacao){
         case 1:{
             Pet *pet = criaPet(fila_normal,fila_emergencia,fila_atendidos);
@@ -197,6 +197,11 @@ int main(){
             break;
 
         case 7:
+            system("cls");
+            SetConsoleTextAttribute(hConsole, 6);
+            printf("\n[INFO]");
+            SetConsoleTextAttribute(hConsole, 7);
+            printf("Finalizando o sistema... Obrigado por utilizar!\n");
             return 0;
             break;
 
