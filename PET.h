@@ -37,6 +37,14 @@ int generateId(Fila *fila_normal, Fila *fila_emergencia, Fila *fila_atendidos);
 Fila* buscarPetNome(char *nome, Fila *fila_emergencia, Fila *fila_normal, Fila *fila_atendidos);
 Pet* buscarPetId(int id, Fila *fila_emergencia, Fila *fila_normal, Fila *fila_atendidos);
 
+Fila* liberaPet(Pet* p)
+{
+    if (p != NULL) {
+        free(p->data);
+        free(p);
+    }
+}
+
 void limpaBuffer(){
     int c;
     while ((c = getchar()) != '\n' && c != EOF);
@@ -59,14 +67,13 @@ Pet* criaPet(Fila *fila_normal, Fila *fila_emergencia, Fila *fila_atendidos) {
     printf("\nDigite o nome do pet: ");
     fgets(new_pet->nome,sizeof(new_pet->nome),stdin);
     new_pet->nome[strcspn(new_pet->nome, "\n")] = '\0';
-    limpaBuffer()
 
     int itens_lidos;
 
     do {
         printf("\nDigite a idade do pet: ");
         itens_lidos = scanf("%d", &new_pet->idade);
-        while (getchar() != '\n');
+        limpaBuffer();
 
 
         if (itens_lidos != 1) {
@@ -76,14 +83,13 @@ Pet* criaPet(Fila *fila_normal, Fila *fila_emergencia, Fila *fila_atendidos) {
     printf("\nDigite a espécie do pet: ");
     fgets(new_pet->especie,sizeof(new_pet->especie),stdin);
     new_pet->especie[strcspn(new_pet->especie, "\n")] = '\0';
-    limpaBuffer()
 
     int flag_data;
     do {
         flag_data = 0;
         printf("\nDigite a data de nascimento do pet (DD/MM/AAAA): ");
         itens_lidos = scanf("%d/%d/%d", &new_pet->data->dia, &new_pet->data->mes, &new_pet->data->ano);
-        limpaBuffer()
+        limpaBuffer();
         if(new_pet->data->dia > 31 || new_pet->data->dia < 1 || new_pet->data->mes > 12 || new_pet->data->mes < 1|| new_pet->data->ano < 1950 || new_pet->data->ano > 2025){
             printf("Formato de data inválido. Tente novamente.\n");
             flag_data = 1;
@@ -97,7 +103,7 @@ Pet* criaPet(Fila *fila_normal, Fila *fila_emergencia, Fila *fila_atendidos) {
     do {
         printf("\nEmergência? (S/N): ");
         itens_lidos = scanf(" %c", &prioridade);
-        limpaBuffer()
+        limpaBuffer();
 
         prioridade = toupper(prioridade);
 

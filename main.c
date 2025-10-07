@@ -48,8 +48,7 @@ int main(){
     printf("%s",bem_vindo);
     printf("%s",opcoes);
     scanf("%d", &operacao);
-    limpaBuffer()
-
+    limpaBuffer();
 
     while(operacao!=8){
         switch(operacao){
@@ -111,7 +110,7 @@ int main(){
             do{
                 printf("Deseja buscar o pet por nome(0) ou por Id(1)?: ");
                 scanf("%d", &a);
-                limpaBuffer()
+                limpaBuffer();
             }while(a!=0 && a!=1);
 
             if(a == 0){
@@ -119,7 +118,6 @@ int main(){
                 char nome[50];
                 fgets(nome,sizeof(nome),stdin);
                 nome[strcspn(nome, "\n")] = '\0';
-                limpaBuffer()
 
                 Fila *nomes = buscarPetNome(nome, fila_emergencia, fila_normal, fila_atendidos);
                 if(!VaziaFila(nomes)){
@@ -140,7 +138,7 @@ int main(){
                 printf("Qual o id do pet?");
                 int id;
                 scanf("%d", &id);
-                limpaBuffer()
+                limpaBuffer();
 
                 Pet *petId = buscarPetId(id, fila_emergencia, fila_normal, fila_atendidos);
                 if(petId != NULL){
@@ -237,6 +235,4 @@ int main(){
         printf("%s",opcoes);
         scanf("%d", &operacao);
     }
-
-
 }
