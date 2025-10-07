@@ -50,8 +50,6 @@ int main(){
     printf("%s",bem_vindo);
     printf("%s",opcoes);
     scanf("%d", &operacao);
-    limpaBuffer()
-
 
     while(operacao!=8){
         switch(operacao){
@@ -61,7 +59,7 @@ int main(){
                 SetConsoleTextAttribute(hConsole, 6);
                 printf("\n[INFO]");
                 SetConsoleTextAttribute(hConsole, 7);
-                printf("\tPet %s (ID: %d) adicionado a fila de %s.",pet->nome,pet->id,(pet->prioridade) ? ("EMERGENCIA") : ("NORMAL"));
+                printf("\tPet %s (ID: %d) adicionado a fila de %s.",pet->nome,pet->id,(pet->prioridade) ? ("NORMAL") : ("EMERGENCIA"));
             }
             else{
                 SetConsoleTextAttribute(hConsole, 12);
@@ -113,7 +111,7 @@ int main(){
             do{
                 printf("Deseja buscar o pet por nome(0) ou por Id(1)?: ");
                 scanf("%d", &a);
-                limpaBuffer()
+                limpaBuffer();
             }while(a!=0 && a!=1);
 
             if(a == 0){
@@ -121,7 +119,7 @@ int main(){
                 char nome[50];
                 fgets(nome,sizeof(nome),stdin);
                 nome[strcspn(nome, "\n")] = '\0';
-                limpaBuffer()
+                limpaBuffer();
 
                 Fila *nomes = buscarPetNome(nome, fila_emergencia, fila_normal, fila_atendidos);
                 if(!VaziaFila(nomes)){
@@ -141,7 +139,7 @@ int main(){
                 printf("Qual o id do pet?");
                 int id;
                 scanf("%d", &id);
-                limpaBuffer()
+                limpaBuffer();
 
                 Pet *petId = buscarPetId(id, fila_emergencia, fila_normal, fila_atendidos);
                 if(petId != NULL){
