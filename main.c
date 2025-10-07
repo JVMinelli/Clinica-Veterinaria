@@ -19,11 +19,11 @@ int main(){
     /** Crias filas de atendimento*/
     Fila *fila_normal = CriaFila();
     Fila *fila_emergencia = CriaFila();
-    /** Fila de pets já atendidos*/
+    /** Fila de pets jÃ¡ atendidos*/
     Fila *fila_atendidos = CriaFila();
 
     const char* inicio1 = "\n=========================================================\n";
-    const char* inicio2 = "\n===   Sistema de Gerenciamento - Clinica Veterinária  ===\n";
+    const char* inicio2 = "\n===   Sistema de Gerenciamento - Clinica VeterinÃ¡ria  ===\n";
     const char* inicio3 = "\n=========================================================\n";
     const char* dog1 = "\n           / __";
     const char* dog2 = "\n          (    @ ___";
@@ -31,29 +31,28 @@ int main(){
     const char* dog4 = "\n         /   (_____/";
     const char* dog5 = "\n        /____/   ";
     const char* dog6 = "U";
-    const char* bem_vindo = "\nBem-vindo! Por favor, escolha uma opção: \n";
+    const char* bem_vindo = "\nBem-vindo! Por favor, escolha uma opÃ§Ã£o: \n";
     const char* opcoes = "\n[1] Adicionar Pet a Fila de Atendimento \n[2] Chamar Proximo Pet para Atendimento \n[3] Buscar Pet (por ID ou Nome) \n[4] Listar Pets na Fila de Espera \n[5] Ver Proximo Pet da Fila \n[6] Listar Pets ja Atendidos \n[7] Sair do Sistema \n\n\t>> Sua escolha:";
 
-    int operacao;
-    printf("%s",inicio1);
-    printf("%s",inicio2);
-    printf("%s",inicio3);
-    SetConsoleTextAttribute(hConsole, 6);
-    printf("%s",dog1);
-    printf("%s",dog2);
-    printf("%s",dog3);
-    printf("%s",dog4);
-    printf("%s",dog5);
-    SetConsoleTextAttribute(hConsole, 12);
-    printf("%s",dog6);
-    SetConsoleTextAttribute(hConsole, 7);
-    printf("%s",bem_vindo);
-    printf("%s",opcoes);
-    scanf("%d", &operacao);
-    limpaBuffer();
+    while(1){
+        int operacao;
+        printf("%s",inicio1);
+        printf("%s",inicio2);
+        printf("%s",inicio3);
+        SetConsoleTextAttribute(hConsole, 6);
+        printf("%s",dog1);
+        printf("%s",dog2);
+        printf("%s",dog3);
+        printf("%s",dog4);
+        printf("%s",dog5);
+        SetConsoleTextAttribute(hConsole, 12);
+        printf("%s",dog6);
+        SetConsoleTextAttribute(hConsole, 7);
+        printf("%s",bem_vindo);
+        printf("%s",opcoes);
+        scanf("%d", &operacao);
+        limpaBuffer();
 
-
-    while(operacao!=8){
         switch(operacao){
         case 1:{
             Pet *pet = criaPet(fila_normal,fila_emergencia,fila_atendidos);
@@ -63,7 +62,7 @@ int main(){
                 printInfo(hConsole,info);
             }
             else{
-                printInfo(hConsole, "Não foi possivel cadastrar o pet");
+                printInfo(hConsole, "Nï¿½o foi possivel cadastrar o pet");
             }
             if(pet->prioridade == 1){
                 InsereFila(fila_emergencia, pet);
@@ -76,7 +75,7 @@ int main(){
         case 2:
             if(VaziaFila(fila_emergencia)){
                 if(VaziaFila(fila_normal)){
-                    printInfo(hConsole, "\tNão há pets na fila de espera.");
+                    printInfo(hConsole, "\tNï¿½o hï¿½ pets na fila de espera.");
                 }
                 else{
                     Pet *petAux = RetiraFila(fila_normal);
@@ -112,7 +111,6 @@ int main(){
                 char nome[50];
                 fgets(nome,sizeof(nome),stdin);
                 nome[strcspn(nome, "\n")] = '\0';
-                limpaBuffer();
 
                 Fila *nomes = buscarPetNome(nome, fila_emergencia, fila_normal, fila_atendidos);
                 if(!VaziaFila(nomes)){
@@ -122,6 +120,7 @@ int main(){
                 else{
                     printInfo(hConsole, "\tNenhum pet com esse nome foi encontrado!\n");
                 }
+                nomes = liberaFila(nomes);
             }
             if(a == 1){
                 printf("Qual o id do pet?");
@@ -143,7 +142,7 @@ int main(){
         }
         case 4:
             printInfo(hConsole,"");
-            printf("\nFila de emergência: \n");
+            printf("\nFila de emergï¿½ncia: \n");
             imprimeFila(fila_emergencia);
             printf("\nFila normal: \n");
             imprimeFila(fila_normal);
@@ -176,32 +175,15 @@ int main(){
         case 7:
             system("cls");
             printInfo(hConsole,"Finalizando o sistema... Obrigado por utilizar!\n");
+            fila_atendidos = liberaFila(fila_atendidos);
+            fila_emergencia = liberaFila(fila_emergencia);
+            fila_normal = liberaFila(fila_normal);
             return 0;
             break;
 
         default:
-            printError(hConsole, "\tOpção invalida, digite uma opção valida\n");
+            printError(hConsole, "\tOpï¿½ï¿½o invalida, digite uma opï¿½ï¿½o valida\n");
             break;
         }
-        printf("\n");
-        system("pause");
-        system("cls");
-        printf("%s",inicio1);
-        printf("%s",inicio2);
-        printf("%s",inicio3);
-        SetConsoleTextAttribute(hConsole, 6);
-        printf("%s",dog1);
-        printf("%s",dog2);
-        printf("%s",dog3);
-        printf("%s",dog4);
-        printf("%s",dog5);
-        SetConsoleTextAttribute(hConsole, 12);
-        printf("%s",dog6);
-        SetConsoleTextAttribute(hConsole, 7);
-        printf("%s",bem_vindo);
-        printf("%s",opcoes);
-        scanf("%d", &operacao);
     }
-
-
 }

@@ -82,6 +82,7 @@ Fila* liberaFila(Fila* f)
     while (p != NULL)
     {
         Nos* t = p->prox;
+        free(p->pet);
         free(p);
         p = t;
     }
