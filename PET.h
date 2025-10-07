@@ -6,6 +6,10 @@
 #include <time.h>
 #include <ctype.h>
 #include <string.h>
+#include <windows.h>
+#define INFO_COLOR 6
+#define ERROR_COLOR 12
+#define RESET_COLOR 7
 
 
 typedef struct DataNasci
@@ -37,6 +41,19 @@ int generateId(Fila *fila_normal, Fila *fila_emergencia, Fila *fila_atendidos);
 Fila* buscarPetNome(char *nome, Fila *fila_emergencia, Fila *fila_normal, Fila *fila_atendidos);
 Pet* buscarPetId(int id, Fila *fila_emergencia, Fila *fila_normal, Fila *fila_atendidos);
 
+void printInfo(HANDLE hconsole, const char*msg){
+    SetConsoleTextAttribute(hconsole, INFO_COLOR);
+    printf("\n\t[INFO]");
+    SetConsoleTextAttribute(hconsole, RESET_COLOR);
+    printf(" %s\n", msg);
+}
+
+void printError(HANDLE hconsole, const char*msg){
+    SetConsoleTextAttribute(hconsole, ERROR_COLOR);
+    printf("\n\t[ERROR]");
+    SetConsoleTextAttribute(hconsole, RESET_COLOR);
+    printf(" %s\n", msg);
+}
 
 void limpaBuffer(){
     int c;
