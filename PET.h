@@ -20,7 +20,7 @@ typedef struct petInfo
     int idade;
     char especie[30];
     char nome[50];
-    Data *data;
+    Data data;
     int prioridade;
     int atendido;
 }Pet;
@@ -37,6 +37,7 @@ int generateId(Fila *fila_normal, Fila *fila_emergencia, Fila *fila_atendidos);
 Fila* buscarPetNome(char *nome, Fila *fila_emergencia, Fila *fila_normal, Fila *fila_atendidos);
 Pet* buscarPetId(int id, Fila *fila_emergencia, Fila *fila_normal, Fila *fila_atendidos);
 
+
 void limpaBuffer(){
     int c;
     while ((c = getchar()) != '\n' && c != EOF);
@@ -45,17 +46,10 @@ void limpaBuffer(){
 Pet* criaPet(Fila *fila_normal, Fila *fila_emergencia, Fila *fila_atendidos) {
     Pet* new_pet = (Pet*)malloc(sizeof(Pet));
     if (new_pet == NULL) {
-        printf("Erro: Falha na alocação de memória para o Pet.\n");
+        printf("Erro: Falha na alocaÃ§Ã£o de memÃ³ria para o Pet.\n");
         return NULL;
     }
 
-    new_pet->data = (Data*)malloc(sizeof(Data));
-    if (new_pet->data == NULL) {
-        printf("Erro: Falha na alocação de memória para a data.\n");
-        free(new_pet);
-        return NULL;
-    }
-    limpaBuffer();
     printf("\nDigite o nome do pet: ");
     fgets(new_pet->nome,sizeof(new_pet->nome),stdin);
     new_pet->nome[strcspn(new_pet->nome, "\n")] = '\0';
@@ -65,43 +59,42 @@ Pet* criaPet(Fila *fila_normal, Fila *fila_emergencia, Fila *fila_atendidos) {
     do {
         printf("\nDigite a idade do pet: ");
         itens_lidos = scanf("%d", &new_pet->idade);
-        while (getchar() != '\n');
+        limpaBuffer();
 
 
         if (itens_lidos != 1) {
-            printf("Entrada inválida. Por favor, digite um número para a idade.\n");
+            printf("Entrada invÃ¡lida. Por favor, digite um nÃºmero para a idade.\n");
         }
     } while (itens_lidos != 1);
-    printf("\nDigite a espécie do pet: ");
+    printf("\nDigite a espÃ©cie do pet: ");
     fgets(new_pet->especie,sizeof(new_pet->especie),stdin);
     new_pet->especie[strcspn(new_pet->especie, "\n")] = '\0';
-
 
     int flag_data;
     do {
         flag_data = 0;
         printf("\nDigite a data de nascimento do pet (DD/MM/AAAA): ");
-        itens_lidos = scanf("%d/%d/%d", &new_pet->data->dia, &new_pet->data->mes, &new_pet->data->ano);
+        itens_lidos = scanf("%d/%d/%d", &new_pet->data.dia, &new_pet->data.mes, &new_pet->data.ano);
         limpaBuffer();
-        if(new_pet->data->dia > 31 || new_pet->data->dia < 1 || new_pet->data->mes > 12 || new_pet->data->mes < 1|| new_pet->data->ano < 1950 || new_pet->data->ano > 2025){
-            printf("Formato de data inválido. Tente novamente.\n");
+        if(new_pet->data.dia > 31 || new_pet->data.dia < 1 || new_pet->data.mes > 12 || new_pet->data.mes < 1|| new_pet->data.ano < 1950 || new_pet->data.ano > 2025){
+            printf("Formato de data invÃ¡lido. Tente novamente.\n");
             flag_data = 1;
         }
         if(itens_lidos != 3) {
-            printf("Formato de data inválido. Tente novamente.\n");
+            printf("Formato de data invÃ¡lido. Tente novamente.\n");
         }
     } while (itens_lidos != 3 || flag_data);
 
     char prioridade;
     do {
-        printf("\nEmergência? (S/N): ");
+        printf("\nEmergÃªncia? (S/N): ");
         itens_lidos = scanf(" %c", &prioridade);
         limpaBuffer();
 
         prioridade = toupper(prioridade);
 
         if (itens_lidos != 1 || (prioridade != 'S' && prioridade != 'N')) {
-            printf("Opção inválida. Por favor, digite 'S' para sim ou 'N' para não.\n");
+            printf("OpÃ§Ã£o invÃ¡lida. Por favor, digite 'S' para sim ou 'N' para nÃ£o.\n");
         }
     } while (itens_lidos != 1 || (prioridade != 'S' && prioridade != 'N'));
 
@@ -136,7 +129,7 @@ void imprimePetAtendido(Pet* p, int max_nome, int max_especie)
 
 void imprimePet(Pet* p)
 {
-    printf("\n\t%d | %s | %s | %02d | %02d/%02d/%04d | %s\n",p->id,p->nome,p->especie,p->idade,p->data->dia,p->data->mes,p->data->ano,(p->prioridade) ? ("NORMAL") : ("EMERGENCIA"));
+    printf("\n\t%d | %s | %s | %02d | %02d/%02d/%04d | %s\n",p->id,p->nome,p->especie,p->idade,p->data.dia,p->data.mes,p->data.ano,(p->prioridade) ? ("EMERGENCIA") : ("NORMAL"));
 }
 
 void imprimeFila(Fila *fila){
