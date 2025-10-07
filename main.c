@@ -62,7 +62,7 @@ int main(){
                 printInfo(hConsole,info);
             }
             else{
-                printInfo(hConsole, "N�o foi possivel cadastrar o pet");
+                printInfo(hConsole, "Não foi possivel cadastrar o pet");
             }
             if(pet->prioridade == 1){
                 InsereFila(fila_emergencia, pet);
@@ -75,7 +75,7 @@ int main(){
         case 2:
             if(VaziaFila(fila_emergencia)){
                 if(VaziaFila(fila_normal)){
-                    printInfo(hConsole, "\tN�o h� pets na fila de espera.");
+                    printInfo(hConsole, "\tNâo há pets na fila de espera.");
                 }
                 else{
                     Pet *petAux = RetiraFila(fila_normal);
@@ -142,7 +142,7 @@ int main(){
         }
         case 4:
             printInfo(hConsole,"");
-            printf("\nFila de emerg�ncia: \n");
+            printf("\nFila de emergência: \n");
             imprimeFila(fila_emergencia);
             printf("\nFila normal: \n");
             imprimeFila(fila_normal);
@@ -182,8 +182,12 @@ int main(){
             break;
 
         default:
-            printError(hConsole, "\tOp��o invalida, digite uma op��o valida\n");
+            printError(hConsole, "\tOpção invalida, digite uma opção valida\n");
             break;
         }
+        system("pause");
+        system("cls");
     }
+
+
 }
