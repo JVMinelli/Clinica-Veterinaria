@@ -134,6 +134,7 @@ int main(){
                     SetConsoleTextAttribute(hConsole, 7);
                     printf("\tNenhum pet com esse nome foi encontrado!\n");
                 }
+                nomes = liberaFila(nomes);
             }
             if(a == 1){
                 printf("Qual o id do pet?");
@@ -204,6 +205,9 @@ int main(){
             printf("\n[INFO]");
             SetConsoleTextAttribute(hConsole, 7);
             printf("Finalizando o sistema... Obrigado por utilizar!\n");
+            fila_atendidos = liberaFila(fila_atendidos);
+            fila_emergencia = liberaFila(fila_emergencia);
+            fila_normal = liberaFila(fila_normal);
             return 0;
             break;
 
