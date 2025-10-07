@@ -50,7 +50,7 @@ int main(){
     printf("%s",bem_vindo);
     printf("%s",opcoes);
     scanf("%d", &operacao);
-    limpaBuffer()
+    limpaBuffer();
 
 
     while(operacao!=8){
@@ -58,16 +58,12 @@ int main(){
         case 1:{
             Pet *pet = criaPet(fila_normal,fila_emergencia,fila_atendidos);
             if(pet != NULL){
-                SetConsoleTextAttribute(hConsole, 6);
-                printf("\n[INFO]");
-                SetConsoleTextAttribute(hConsole, 7);
-                printf("\tPet %s (ID: %d) adicionado a fila de %s.",pet->nome,pet->id,(pet->prioridade) ? ("EMERGENCIA") : ("NORMAL"));
+                char info[100];
+                sprintf(info,"\tPet %s (ID: %d) adicionado a fila de %s.",pet->nome,pet->id,(pet->prioridade) ? ("EMERGENCIA") : ("NORMAL"));
+                printInfo(hConsole,info);
             }
             else{
-                SetConsoleTextAttribute(hConsole, 12);
-                printf("\n[INFO]");
-                SetConsoleTextAttribute(hConsole, 7);
-                printf("\tNão foi possivel cadastrar o pet");
+                printInfo(hConsole, "Não foi possivel cadastrar o pet");
             }
             if(pet->prioridade == 1){
                 InsereFila(fila_emergencia, pet);
@@ -80,19 +76,15 @@ int main(){
         case 2:
             if(VaziaFila(fila_emergencia)){
                 if(VaziaFila(fila_normal)){
-                    SetConsoleTextAttribute(hConsole, 6);
-                    printf("\n[INFO]");
-                    SetConsoleTextAttribute(hConsole, 7);
-                    printf("\tNão há pets na fila de espera.");
+                    printInfo(hConsole, "\tNão há pets na fila de espera.");
                 }
                 else{
                     Pet *petAux = RetiraFila(fila_normal);
                     petAux->atendido = 1;
                     InsereFila(fila_atendidos, petAux);
-                    SetConsoleTextAttribute(hConsole, 6);
-                    printf("\n[INFO]");
-                    SetConsoleTextAttribute(hConsole, 7);
-                    printf("\tO pet %s foi atendido e removido da fila.",petAux->nome);
+                    char info[100];
+                    sprintf(info, "\tO pet %s foi atendido e removido da fila.",petAux->nome);
+                    printInfo(hConsole, info);
                     imprimePetAtendido(petAux,strlen(petAux->nome), strlen(petAux->especie));
                 }
             }
@@ -100,10 +92,9 @@ int main(){
                 Pet *petAux = RetiraFila(fila_emergencia);
                 petAux->atendido = 1;
                 InsereFila(fila_atendidos, petAux);
-                SetConsoleTextAttribute(hConsole, 6);
-                printf("\n[INFO]");
-                SetConsoleTextAttribute(hConsole, 7);
-                printf("\tO pet %s foi atendido e removido da fila.",petAux->nome);
+                char info[100];
+                sprintf(info,"\tO pet %s foi atendido e removido da fila.",petAux->nome);
+                printInfo(hConsole, info);
                 imprimePetAtendido(petAux,strlen(petAux->nome), strlen(petAux->especie));
             }
             break;
@@ -113,7 +104,7 @@ int main(){
             do{
                 printf("Deseja buscar o pet por nome(0) ou por Id(1)?: ");
                 scanf("%d", &a);
-                limpaBuffer()
+                limpaBuffer();
             }while(a!=0 && a!=1);
 
             if(a == 0){
@@ -121,49 +112,37 @@ int main(){
                 char nome[50];
                 fgets(nome,sizeof(nome),stdin);
                 nome[strcspn(nome, "\n")] = '\0';
-                limpaBuffer()
+                limpaBuffer();
 
                 Fila *nomes = buscarPetNome(nome, fila_emergencia, fila_normal, fila_atendidos);
                 if(!VaziaFila(nomes)){
-                    SetConsoleTextAttribute(hConsole, 6);
-                    printf("\n[INFO]\t");
-                    SetConsoleTextAttribute(hConsole, 7);
+                    printInfo(hConsole,"");
                     imprimeFilaAtendidos(nomes);
                 }
                 else{
-                    SetConsoleTextAttribute(hConsole, 6);
-                    printf("\n[INFO]");
-                    SetConsoleTextAttribute(hConsole, 7);
-                    printf("\tNenhum pet com esse nome foi encontrado!\n");
+                    printInfo(hConsole, "\tNenhum pet com esse nome foi encontrado!\n");
                 }
             }
             if(a == 1){
                 printf("Qual o id do pet?");
                 int id;
                 scanf("%d", &id);
-                limpaBuffer()
+                limpaBuffer();
 
                 Pet *petId = buscarPetId(id, fila_emergencia, fila_normal, fila_atendidos);
                 if(petId != NULL){
-                    SetConsoleTextAttribute(hConsole, 6);
-                    printf("\n[INFO]\t");
-                    SetConsoleTextAttribute(hConsole, 7);
+                    printInfo(hConsole,"");
                     imprimePetAtendido(petId,strlen(petId->nome), strlen(petId->especie));
                 }
                 else{
-                    SetConsoleTextAttribute(hConsole, 6);
-                    printf("\n[INFO]");
-                    SetConsoleTextAttribute(hConsole, 7);
-                    printf("\tNenhum pet com esse id foi encontrado!\n");
+                    printInfo(hConsole,"\tNenhum pet com esse id foi encontrado!\n");
                 }
             }
 
             break;
         }
         case 4:
-            SetConsoleTextAttribute(hConsole, 6);
-            printf("\n[INFO]\n");
-            SetConsoleTextAttribute(hConsole, 7);
+            printInfo(hConsole,"");
             printf("\nFila de emergência: \n");
             imprimeFila(fila_emergencia);
             printf("\nFila normal: \n");
@@ -173,10 +152,7 @@ int main(){
         case 5:
             if(VaziaFila(fila_emergencia)){
                 if(VaziaFila(fila_normal)){
-                    SetConsoleTextAttribute(hConsole, 6);
-                    printf("\n[INFO]");
-                    SetConsoleTextAttribute(hConsole, 7);
-                    printf("\tFila vazia");
+                    printInfo(hConsole,"\tFila vazia");
                 }
                 else{
                     imprimePet(fila_normal->ini->pet);
@@ -190,10 +166,7 @@ int main(){
 
         case 6:
             if(VaziaFila(fila_atendidos)){
-                SetConsoleTextAttribute(hConsole, 6);
-                printf("\n[INFO]");
-                SetConsoleTextAttribute(hConsole, 7);
-                printf("\tNenhum pet foi atendido!");
+                printInfo(hConsole,"\tNenhum pet foi atendido!");
             }
             else{
                 imprimeFilaAtendidos(fila_atendidos);
@@ -202,18 +175,12 @@ int main(){
 
         case 7:
             system("cls");
-            SetConsoleTextAttribute(hConsole, 6);
-            printf("\n[INFO]");
-            SetConsoleTextAttribute(hConsole, 7);
-            printf("Finalizando o sistema... Obrigado por utilizar!\n");
+            printInfo(hConsole,"Finalizando o sistema... Obrigado por utilizar!\n");
             return 0;
             break;
 
         default:
-            SetConsoleTextAttribute(hConsole, 12);
-            printf("\n[INFO]");
-            SetConsoleTextAttribute(hConsole, 7);
-            printf("\tOpção invalida, digite uma opção valida\n");
+            printError(hConsole, "\tOpção invalida, digite uma opção valida\n");
             break;
         }
         printf("\n");
