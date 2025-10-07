@@ -8,6 +8,8 @@
 #include <windows.h>
 
 
+void limpaBuffer();
+
 int main(){
 
     srand(time(NULL));
@@ -233,4 +235,9 @@ int main(){
     }
 
 
+}
+
+void limpaBuffer(){
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF);
 }
