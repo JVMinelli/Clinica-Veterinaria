@@ -37,7 +37,10 @@ int generateId(Fila *fila_normal, Fila *fila_emergencia, Fila *fila_atendidos);
 Fila* buscarPetNome(char *nome, Fila *fila_emergencia, Fila *fila_normal, Fila *fila_atendidos);
 Pet* buscarPetId(int id, Fila *fila_emergencia, Fila *fila_normal, Fila *fila_atendidos);
 
-
+void limpaBuffer(){
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF);
+}
 
 Pet* criaPet(Fila *fila_normal, Fila *fila_emergencia, Fila *fila_atendidos) {
     Pet* new_pet = (Pet*)malloc(sizeof(Pet));
@@ -56,7 +59,7 @@ Pet* criaPet(Fila *fila_normal, Fila *fila_emergencia, Fila *fila_atendidos) {
     printf("\nDigite o nome do pet: ");
     fgets(new_pet->nome,sizeof(new_pet->nome),stdin);
     new_pet->nome[strcspn(new_pet->nome, "\n")] = '\0';
-
+    limpaBuffer()
 
     int itens_lidos;
 
@@ -73,13 +76,14 @@ Pet* criaPet(Fila *fila_normal, Fila *fila_emergencia, Fila *fila_atendidos) {
     printf("\nDigite a espécie do pet: ");
     fgets(new_pet->especie,sizeof(new_pet->especie),stdin);
     new_pet->especie[strcspn(new_pet->especie, "\n")] = '\0';
+    limpaBuffer()
 
     int flag_data;
     do {
         flag_data = 0;
         printf("\nDigite a data de nascimento do pet (DD/MM/AAAA): ");
         itens_lidos = scanf("%d/%d/%d", &new_pet->data->dia, &new_pet->data->mes, &new_pet->data->ano);
-        while (getchar() != '\n');
+        limpaBuffer()
         if(new_pet->data->dia > 31 || new_pet->data->dia < 1 || new_pet->data->mes > 12 || new_pet->data->mes < 1|| new_pet->data->ano < 1950 || new_pet->data->ano > 2025){
             printf("Formato de data inválido. Tente novamente.\n");
             flag_data = 1;
@@ -93,7 +97,7 @@ Pet* criaPet(Fila *fila_normal, Fila *fila_emergencia, Fila *fila_atendidos) {
     do {
         printf("\nEmergência? (S/N): ");
         itens_lidos = scanf(" %c", &prioridade);
-        while (getchar() != '\n');
+        limpaBuffer()
 
         prioridade = toupper(prioridade);
 
@@ -128,7 +132,7 @@ int idIsValid(int new_id, Fila *fila_normal, Fila *fila_emergencia, Fila *fila_a
 
 void imprimePetAtendido(Pet* p, int max_nome, int max_especie)
 {
-    printf("\n\t%-3d | %*s | %*s | %-5d | %s | %s ",p->id,max_nome,p->nome,max_especie,p->especie,p->idade,(p->prioridade) ? ("EMERGENCIA") : ("  NORMAL  "), (p->atendido) ? ("ATENDIDO") : ("AGUARDANDO ATENDIMENTO"));
+    printf("\n\t%-3d | %*s | %*s | %5d | %s | %s ",p->id,max_nome,p->nome,max_especie,p->especie,p->idade,(p->prioridade) ? ("EMERGENCIA") : ("  NORMAL  "), (p->atendido) ? ("ATENDIDO") : ("AGUARDANDO ATENDIMENTO"));
 }
 
 void imprimePet(Pet* p)
@@ -155,7 +159,7 @@ void imprimeFilaAtendidos(Fila *fila){
     char nome[5] = "Nome";
     nome[4]='\0';
     char especie[8] = "Especie";
-    nome[7]='\0';
+    especie[7]='\0';
 
     printf("\n\tID  | %*s | %*s | Idade | Prioridade | Atendido \n",max_nome,nome,max_especies,especie);
 
