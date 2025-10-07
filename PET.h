@@ -123,32 +123,7 @@ int idIsValid(int new_id, Fila *fila_normal, Fila *fila_emergencia, Fila *fila_a
 
 void imprimePetAtendido(Pet* p, int max_nome, int max_especie)
 {
-    char nome[max_nome+1];
-    memset(nome,' ',max_nome);
-    nome[max_nome] = '\0';
-    int tam = (strlen(p->nome));
-    for(int i=0; i<tam;i++){
-        nome[i] = p->nome[i];
-    }
-
-    char especie[max_especie+1];
-    memset(especie,' ',max_especie);
-    especie[max_especie] = '\0';
-    tam = (strlen(p->especie));
-    for(int i=0; i<tam;i++){
-        especie[i] = p->especie[i];
-    }
-
-    char idade_padding[6];
-    char str_number[20];
-    sprintf(str_number, "%d", p->idade);
-    memset(idade_padding,' ',6);
-    idade_padding[5] = '\0';
-    for(int i=0; i<2;i++){
-        idade_padding[i] = str_number[i];
-    }
-    printf("\n\t%d | %s ",p->id,nome);
-    printf("| %s | %s | %s | %s ",especie,idade_padding,(p->prioridade) ? ("EMERGENCIA") : ("  NORMAL  "), (p->atendido) ? ("ATENDIDO") : ("AGUARDANDO ATENDIMENTO"));
+    printf("\n\t%-3d | %*s | %*s | %-5d | %s | %s ",p->id,max_nome,p->nome,max_especie,p->especie,p->idade,(p->prioridade) ? ("EMERGENCIA") : ("  NORMAL  "), (p->atendido) ? ("ATENDIDO") : ("AGUARDANDO ATENDIMENTO"));
 }
 
 void imprimePet(Pet* p)
@@ -172,25 +147,12 @@ void imprimeFilaAtendidos(Fila *fila){
     int max_especies = maiorEspecie(fila);
     int max_nome = maiorNome(fila);
 
-    char nome_t[max_nome+1];
     char nome[5] = "Nome";
-    memset(nome_t,' ',max_nome);
-    nome_t[max_nome] = '\0';
-    int tam = (strlen(nome));
-    for(int i=0; i<tam;i++){
-        nome_t[i] = nome[i];
-    }
-
-    char especie_t[max_especies+1];
+    nome[4]='\0';
     char especie[8] = "Especie";
-    memset(especie_t,' ',max_especies);
-    especie_t[max_especies] = '\0';
-    tam = (strlen(especie));
-    for(int i=0; i<tam;i++){
-        especie_t[i] = especie[i];
-    }
+    nome[7]='\0';
 
-    printf("\n\tID  | %s | %s | Idade | Prioridade | Atendido \n",nome_t,especie_t);
+    printf("\n\tID  | %*s | %*s | Idade | Prioridade | Atendido \n",max_nome,nome,max_especies,especie);
 
     if(!VaziaFila(fila)){
         aux = fila->ini;
