@@ -209,7 +209,7 @@ Fila* buscarPetNome(char *nome, Fila *fila_emergencia, Fila *fila_normal, Fila *
 
     aux = fila_normal->ini;
     while(aux != NULL){
-        if(strcmp(aux->pet->nome,nome)==0){
+        if(strcasecmp(aux->pet->nome,nome)==0){
             InsereFila(fila_nomes, aux->pet);
         }
         aux = aux->prox;
@@ -217,7 +217,7 @@ Fila* buscarPetNome(char *nome, Fila *fila_emergencia, Fila *fila_normal, Fila *
 
     aux = fila_emergencia->ini;
     while(aux != NULL){
-        if(strcmp(aux->pet->nome,nome)==0){
+        if(strcasecmp(aux->pet->nome,nome)==0){
             InsereFila(fila_nomes, aux->pet);
         }
         aux = aux->prox;
@@ -225,7 +225,7 @@ Fila* buscarPetNome(char *nome, Fila *fila_emergencia, Fila *fila_normal, Fila *
 
     aux = fila_atendidos->ini;
     while(aux != NULL){
-        if(strcmp(aux->pet->nome,nome)==0){
+        if(strcasecmp(aux->pet->nome,nome)==0){
             InsereFila(fila_nomes, aux->pet);
         }
         aux = aux->prox;
