@@ -74,15 +74,20 @@ Pet* criaPet(Fila *fila_normal, Fila *fila_emergencia, Fila *fila_atendidos) {
     fgets(new_pet->especie,sizeof(new_pet->especie),stdin);
     new_pet->especie[strcspn(new_pet->especie, "\n")] = '\0';
 
+    int flag_data;
     do {
-        printf("\nDigite a data de nascimento do pet (DD/MM/AAAA). Ex: 02/09/2005: ");
+        flag_data = 0;
+        printf("\nDigite a data de nascimento do pet (DD/MM/AAAA): ");
         itens_lidos = scanf("%d/%d/%d", &new_pet->data->dia, &new_pet->data->mes, &new_pet->data->ano);
         while (getchar() != '\n');
-
-        if (itens_lidos != 3) {
+        if(new_pet->data->dia > 31 || new_pet->data->dia < 1 || new_pet->data->mes > 12 || new_pet->data->mes < 1|| new_pet->data->ano < 1950 || new_pet->data->ano > 2025){
+            printf("Formato de data inválido. Tente novamente.\n");
+            flag_data = 1;
+        }
+        if(itens_lidos != 3) {
             printf("Formato de data inválido. Tente novamente.\n");
         }
-    } while (itens_lidos != 3);
+    } while (itens_lidos != 3 || flag_data);
 
     char prioridade;
     do {
