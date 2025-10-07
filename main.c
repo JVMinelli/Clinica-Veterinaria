@@ -34,25 +34,25 @@ int main(){
     const char* bem_vindo = "\nBem-vindo! Por favor, escolha uma opção: \n";
     const char* opcoes = "\n[1] Adicionar Pet a Fila de Atendimento \n[2] Chamar Proximo Pet para Atendimento \n[3] Buscar Pet (por ID ou Nome) \n[4] Listar Pets na Fila de Espera \n[5] Ver Proximo Pet da Fila \n[6] Listar Pets ja Atendidos \n[7] Sair do Sistema \n\n\t>> Sua escolha:";
 
-    int operacao;
-    printf("%s",inicio1);
-    printf("%s",inicio2);
-    printf("%s",inicio3);
-    SetConsoleTextAttribute(hConsole, 6);
-    printf("%s",dog1);
-    printf("%s",dog2);
-    printf("%s",dog3);
-    printf("%s",dog4);
-    printf("%s",dog5);
-    SetConsoleTextAttribute(hConsole, 12);
-    printf("%s",dog6);
-    SetConsoleTextAttribute(hConsole, 7);
-    printf("%s",bem_vindo);
-    printf("%s",opcoes);
-    scanf("%d", &operacao);
-    limpaBuffer();
+    while(1){
+        int operacao;
+        printf("%s",inicio1);
+        printf("%s",inicio2);
+        printf("%s",inicio3);
+        SetConsoleTextAttribute(hConsole, 6);
+        printf("%s",dog1);
+        printf("%s",dog2);
+        printf("%s",dog3);
+        printf("%s",dog4);
+        printf("%s",dog5);
+        SetConsoleTextAttribute(hConsole, 12);
+        printf("%s",dog6);
+        SetConsoleTextAttribute(hConsole, 7);
+        printf("%s",bem_vindo);
+        printf("%s",opcoes);
+        scanf("%d", &operacao);
+        limpaBuffer();
 
-    while(operacao!=8){
         switch(operacao){
         case 1:{
             Pet *pet = criaPet(fila_normal,fila_emergencia,fila_atendidos);
@@ -218,23 +218,5 @@ int main(){
             printf("\tOpção invalida, digite uma opção valida\n");
             break;
         }
-        printf("\n");
-        system("pause");
-        system("cls");
-        printf("%s",inicio1);
-        printf("%s",inicio2);
-        printf("%s",inicio3);
-        SetConsoleTextAttribute(hConsole, 6);
-        printf("%s",dog1);
-        printf("%s",dog2);
-        printf("%s",dog3);
-        printf("%s",dog4);
-        printf("%s",dog5);
-        SetConsoleTextAttribute(hConsole, 12);
-        printf("%s",dog6);
-        SetConsoleTextAttribute(hConsole, 7);
-        printf("%s",bem_vindo);
-        printf("%s",opcoes);
-        scanf("%d", &operacao);
     }
 }
