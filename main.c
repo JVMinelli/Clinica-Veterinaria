@@ -80,7 +80,7 @@ int main(){
         case 2:
             if(VaziaFila(fila_emergencia)){
                 if(VaziaFila(fila_normal)){
-                    printInfo(hConsole, "\tNâo há pets na fila de espera.");
+                    printInfo(hConsole, "\tNão há pets na fila de espera.");
                 }
                 else{
                     Pet *petAux = RetiraFila(fila_normal);
@@ -125,7 +125,7 @@ int main(){
                 else{
                     printInfo(hConsole, "\tNenhum pet com esse nome foi encontrado!\n");
                 }
-                nomes = liberaFila(nomes);
+                nomes = liberaFilaSemPet(nomes);
             }
             if(a == 1){
                 printf("Qual o id do pet?");
@@ -159,11 +159,13 @@ int main(){
                     printInfo(hConsole,"\tFila vazia");
                 }
                 else{
-                    imprimePet(fila_normal->ini->pet);
+                    Pet* pet = fila_normal->ini->pet;
+                    imprimePet(pet,strlen(pet->nome),strlen(pet->especie));
                 }
             }
             else{
-                imprimePet(fila_emergencia->ini->pet);
+                Pet* pet = fila_emergencia->ini->pet;
+                imprimePet(pet,strlen(pet->nome),strlen(pet->especie));
             }
 
             break;
@@ -190,6 +192,7 @@ int main(){
             printError(hConsole, "\tOpção invalida, digite uma opção valida\n");
             break;
         }
+        printf("\n\n");
         system("pause");
         system("cls");
     }

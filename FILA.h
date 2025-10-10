@@ -24,6 +24,8 @@ void InsereFila(Fila* f, Pet *v);
 Pet* RetiraFila(Fila* f);
 Fila* liberaFila(Fila* f);
 
+Fila* liberaFilaSemPet(Fila* f);
+
 int VaziaFila(Fila* f)
 {
     return (f->ini == NULL);
@@ -83,6 +85,19 @@ Fila* liberaFila(Fila* f)
     {
         Nos* t = p->prox;
         free(p->pet);
+        free(p);
+        p = t;
+    }
+    free(f);
+    return NULL;
+}
+
+Fila* liberaFilaSemPet(Fila* f)
+{
+    Nos* p = f->ini;
+    while (p != NULL)
+    {
+        Nos* t = p->prox;
         free(p);
         p = t;
     }
